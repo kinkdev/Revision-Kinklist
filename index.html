@@ -864,10 +864,12 @@
 			   		sel.value = 0;
 			   	} else if ( value == "C" ) {
 			   		sel.value = 1;
-			   	} else if ( value == "M" ) {
+			   	} else if ( value == "D" ) {
 			   		sel.value = 2;
-			   	} else if ( value == "Y" ) {
+			   	} else if ( value == "M" ) {
 			   		sel.value = 3;
+			   	} else if ( value == "Y" ) {
+			   		sel.value = 4;
 			   	}
 		
 			   	colorize(i)
@@ -929,12 +931,15 @@
 			result = "Curious";
 			color = "curious";
 		} else if (v == 2) {
+			result = "Do when you like!";
+			color = "ylike";
+		} else if (v == 3) {
 			result = "Moderate";
 			color = "moderate";
-		} else if (v == 3) {
+		} else if (v == 4) {
 			result = "Oh Yes!";
 			color = "ohyes";
-		}
+		} 
 		
 		output.innerText = result;
 		output.className = color;
