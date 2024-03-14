@@ -172,7 +172,7 @@ input[type=range].curious::-webkit-slider-thumb {
 input[type=range].moderate::-webkit-slider-thumb {
   background: #A2FF00;
 }
-input[type=range].ylike ::-webkit-slider-thumb {
+input[type=range].ylike::-webkit-slider-thumb {
   background: #c7c40e;
 }
 
