@@ -206,16 +206,19 @@ box-shadow: 0 0 1px #7d7d7d;
 
 
 input[type=range].ohyes::-moz-range-thumb {
-  background: #86C351;
+  background: #00FF04;
 }
 
 input[type=range].curious::-moz-range-thumb {
-  background: #FFB800;
+  background: #EB9100;
 }
 
 input[type=range].moderate::-moz-range-thumb {
-  background: #CACB00;
+  background: #A2FF00;
 }
 
 
+input[type=range].ylike::-moz-range-thumb {
+  background: #c7c40e;
+}
 
