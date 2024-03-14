@@ -889,8 +889,8 @@
 	    	
 	    	for (var i = 0; i < nbr ; i++) {
 
-			   	var charRemainder = i % 3
-			   	var charIndex = (i - charRemainder) / 3
+			   	var charRemainder = i % 4
+			   	var charIndex = (i - charRemainder) / 4
 			   	
 			   	console.log("index " + i + " remainder " + charRemainder + " charIndex " + charIndex)
 			   	
@@ -901,8 +901,8 @@
 			   	
 			   	for (var j = 0; j < charRemainder ; j++) {
 			   		
-			   		var r = value % 3
-			   		value = (value - r) / 3
+			   		var r = value % 4
+			   		value = (value - r) / 4
 			   		
 			   		console.log("new value " + value)
 			   	}
@@ -964,9 +964,11 @@
 	   		var v = parseInt(sel.value);
 	   		if (v == 1) {
 	    		result += "C";
-    		} else if (v == 2) {
-    			result += "M";
+		} else if (v == 2) {
+    			result += "D";
     		} else if (v == 3) {
+    			result += "M";
+    		} else if (v == 4) {
     			result += "Y";
     		} else {
     			result += "N";
