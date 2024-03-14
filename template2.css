@@ -95,23 +95,27 @@ p.activity output {
 	color: #EB3D00;
 	font-size: 12px;
 }
+p.activity output.ylike   {
+	color: #C7C40E;
+
+}
 
 p.activity output.noway  {
-	color: #EB3D00;
+	color: #EB0000;
 
 }
 
 p.activity output.ohyes  {
-	color: #86C351;
+	color: #00FF04;
 
 }
 
 p.activity output.curious {
-	color: #FFB800;
+	color: #EB9100;
 }
 
 p.activity output.moderate {
-	color: #CACB00;
+	color: #A2FF00;
 }
 
 
