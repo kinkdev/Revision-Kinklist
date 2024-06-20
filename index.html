@@ -802,7 +802,8 @@
 <p class="activity"><label>Publishable with genitals</label><br/><output id="O131" class="red">No way!</output>
 <input class="red" id="L131" type="range" value="0" min="0" max="4" onchange="change(131)" />
 </p>
-<button onclick="export_res()">Export</button> 
+<button onclick="export()">Export</button> 
+<p id="code">your code:</p>
        </form>
 		<br/>
 		<br/>
@@ -1001,7 +1002,7 @@
 	}
 	
 	function export_res() {
-		alert(link)
+		document.getElementById("code").innerHTML = link;
 	}
 </script>
 
