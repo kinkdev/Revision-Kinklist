@@ -947,7 +947,7 @@
 	
 	function change(i) {
 		colorize(i)
-		link=compute()
+		compute()
 	}
 	
 	function compute() {
@@ -1002,10 +1002,7 @@
 	}
 	
 	function export_res() {
-		document.getElementById("code").innerHTML = "https://kinkdev.github.io/Revision-Kinklist/?#"+link;
-		if (link==""){
-			alert("Please try to move a slide!");
-		}
+		document.getElementById("code").innerHTML = "https://kinkdev.github.io/Revision-Kinklist/?#"+compute();
 	}
 </script>
 
