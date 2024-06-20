@@ -802,7 +802,7 @@
 <p class="activity"><label>Publishable with genitals</label><br/><output id="O131" class="red">No way!</output>
 <input class="red" id="L131" type="range" value="0" min="0" max="4" onchange="change(131)" />
 </p>
-	       
+<button onclick="export()">Export</button> 
        </form>
 		<br/>
 		<br/>
@@ -828,7 +828,7 @@
 						<br/>
 		                        
      </body>
-<button onclick="export()">Export</button>
+
      
      
 </html>
@@ -836,7 +836,7 @@
 
 
 <script type="text/javascript">
-
+	var link=""
 
 	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
@@ -946,7 +946,7 @@
 	
 	function change(i) {
 		colorize(i)
-		compute()
+		link=compute()
 	}
 	
 	function compute() {
@@ -996,11 +996,12 @@
 	  	
 	  
 	  	window.location.hash = result;
+		return result
 	  
 	}
 	
 	function export(){
-		alert(window.location.hash)
+		alert(link)
 	}
 </script>
 
