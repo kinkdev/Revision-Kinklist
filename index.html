@@ -811,7 +811,8 @@
 <input class="red" id="L131" type="range" value="0" min="0" max="4" onchange="change(131)" />
 </p>
 <button onclick="export_res()">Export</button> 
-<a id="code">Your code:</a>
+<span id="code" style="cursor: pointer; color: blue;">Generate Link</span>
+
        </form>
 		<br/>
 		<br/>
@@ -1009,8 +1010,13 @@
 	  
 	}
 	
-	function export_res() {
-		document.getElementById("code").href = "https://kinkdev.github.io/Revision-Kinklist/?#"+compute();
-	}
+function export_res() {
+    var codeElement = document.getElementById("code");
+    var url = "https://kinkdev.github.io/Revision-Kinklist/?#" + compute();
+
+    // Optionally, show the link as text or as a clickable element:
+    codeElement.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+}
+
 </script>
 
