@@ -814,7 +814,6 @@
 <span id="code" style="cursor: pointer; color: blue;">Generate Link</span>
 
 <h1>QR Code Generator</h1>
-<input type="text" id="text" placeholder="Enter text to generate QR code">
 <button onclick="generateQRCode()">Generate QR Code</button>
 <div id="qrcode"></div>
 
@@ -852,14 +851,6 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
-function generateQRCode() {
-    var text = "https://kinkdev.github.io/Revision-Kinklist/?#" + compute(true);
-    var qrcodeContainer = document.getElementById("qrcode");
-    qrcodeContainer.innerHTML = ""; // Clear previous QR code
-    new QRCode(qrcodeContainer, text);
-}
-</script>
 <script type="text/javascript">
 	var link=""
 
@@ -1019,12 +1010,13 @@ function generateQRCode() {
 	  	var division = (nbr - remainder) / 36
 	  	
 	  	
-	  	if (flag==false):
+	  	if (flag==false)
 	  		window.location.hash = result;
 		
 		return result
 	  
 	}
+
 	
 function export_res() {
     var codeElement = document.getElementById("code");
@@ -1033,6 +1025,13 @@ function export_res() {
     // Optionally, show the link as text or as a clickable element:
     codeElement.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
 }
+
+function generateQRCode() {
+    var text = "https://kinkdev.github.io/Revision-Kinklist/?#" + compute(true);
+    var qrcodeContainer = document.getElementById("qrcode");
+    qrcodeContainer.innerHTML = ""; // Clear previous QR code
+    new QRCode(qrcodeContainer, text);
+}	
 
 </script>
 
