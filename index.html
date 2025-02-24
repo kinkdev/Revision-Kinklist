@@ -810,11 +810,11 @@
 <p class="activity"><label>Publishable with genitals</label><br/><output id="O131" class="red">No way!</output>
 <input class="red" id="L131" type="range" value="0" min="0" max="4" onchange="change(131)" />
 </p>
-<a href="javascript:void(0);" onclick="export_res()">Export</a> 
+<a href="javascript:void(0);" id=export_button>Export</a> 
 <span id="code" style="cursor: pointer; color: blue;">Generate Link</span>
 
 <h1>QR Code Generator</h1>
-<a href="javascript:void(0);" onclick="generateQRCode()">Generate QR Code</a>
+<a href="javascript:void(0);" id=qr_button>Generate QR Code</a>
 <div id="qrcode"></div>
 
 
@@ -852,6 +852,14 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script type="text/javascript">
+	document.getElementById('export_button').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default behavior
+            export_res();
+	});
+	document.getElementById('qr_button').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default behavior
+            generateQRCode();
+	});
 	var link=""
 
 	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
