@@ -1018,20 +1018,17 @@
 	}
 
 	
-function export_res() {
-    var codeElement = document.getElementById("code");
-    var url = "https://kinkdev.github.io/Revision-Kinklist/?#" + compute(true);
+        function export_res() {
+            var codeElement = document.getElementById("code");
+            var url = "https://kinkdev.github.io/Revision-Kinklist/?#" + compute(true);
+            codeElement.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+        }
 
-    // Optionally, show the link as text or as a clickable element:
-    codeElement.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
-}
-
-function generateQRCode() {
-    var text = "https://kinkdev.github.io/Revision-Kinklist/?#" + compute(true);
-    var qrcodeContainer = document.getElementById("qrcode");
-    qrcodeContainer.innerHTML = ""; // Clear previous QR code
-    new QRCode(qrcodeContainer, text);
-}	
-
+        function generateQRCode() {
+            var text = "https://kinkdev.github.io/Revision-Kinklist/?#" + compute(true);
+            var qrcodeContainer = document.getElementById("qrcode");
+            qrcodeContainer.innerHTML = ""; // Clear previous QR code
+            new QRCode(qrcodeContainer, text);
+        }
 </script>
 
