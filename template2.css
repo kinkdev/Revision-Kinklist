@@ -60,7 +60,7 @@ span.moderate {
 
 
 
-form {
+form, section {
 
 	max-width: 400px;
 	margin-right: auto;
