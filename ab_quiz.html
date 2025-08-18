@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>What Type of Baby Are You?</title>
+    <link rel="stylesheet" href="template2.css" type="text/css" />
+    <link rel="shortcut icon" type="image/png" href="icon.png" />
+</head>
+<body>
+    <h1><img src="icon1.webp" width="44" height="44"> What Type of Baby Are You?</h1>
+    <div class="explaination">
+        <ul>
+            <li>Left position = <span class="red">Strongly Disagree</span></li>
+            <li>2nd position = <span class="curious">Disagree</span></li>
+            <li>3rd position = <span class="ylike">Neutral</span></li>
+            <li>4th position = <span class="moderate">Agree</span></li>
+            <li>Right position = <span class="ohyes">Strongly Agree</span></li>
+        </ul>
+        <p>Answer the questions to discover your Age Play baby role. Submit to see your result!</p>
+    </div>
+
+    <form id="baby-quiz">
+        <p class="activity"><label for="B0">I enjoy wearing diapers 24/7 with no exceptions, replacing all underwear, as enforced by a Daddy</label><br/><output id="O0" class="red">Strongly Disagree</output>
+        <input class="red" id="B0" type="range" value="0" min="0" max="4" onchange="babyChange(0)" aria-label="Rate 24/7 diaper wearing" />
+        </p>
+        <p class="activity"><label for="B1">I enjoy wearing diapers for at least 50% of each week, including 3 consecutive days, as set by a Daddy</label><br/><output id="O1" class="red">Strongly Disagree</output>
+        <input class="red" id="B1" type="range" value="0" min="0" max="4" onchange="babyChange(1)" aria-label="Rate regular diaper wearing" />
+        </p>
+        <p class="activity"><label for="B2">I enjoy wearing diapers only on weekends (Friday after work to Monday morning) with a Daddy’s support</label><br/><output id="O2" class="red">Strongly Disagree</output>
+        <input class="red" id="B2" type="range" value="0" min="0" max="4" onchange="babyChange(2)" aria-label="Rate weekend diaper wearing" />
+        </p>
+        <p class="activity"><label for="B3">I am comfortable wearing pull-ups for work or social events, with diapers at home or with a Daddy</label><br/><output id="O3" class="red">Strongly Disagree</output>
+        <input class="red" id="B3" type="range" value="0" min="0" max="4" onchange="babyChange(3)" aria-label="Rate pull-ups usage" />
+        </p>
+        <p class="activity"><label for="B4">I am comfortable using diapers for both wetting and messing at home and in public, with no toilet access when with a Daddy</label><br/><output id="O4" class="red">Strongly Disagree</output>
+        <input class="red" id="B4" type="range" value="0" min="0" max="4" onchange="babyChange(4)" aria-label="Rate strict diaper usage" />
+        </p>
+        <p class="activity"><label for="B5">I enjoy using diapers for peeing, with one toilet entry per day for messing, as set by a Daddy</label><br/><output id="O5" class="red">Strongly Disagree</output>
+        <input class="red" id="B5" type="range" value="0" min="0" max="4" onchange="babyChange(5)" aria-label="Rate moderate diaper usage" />
+        </p>
+        <p class="activity"><label for="B6">I enjoy using diapers for peeing only, with full toilet access for messing, during baby play</label><br/><output id="O6" class="red">Strongly Disagree</output>
+        <input class="red" id="B6" type="range" value="0" min="0" max="4" onchange="babyChange(6)" aria-label="Rate light diaper usage" />
+        </p>
+        <p class="activity"><label for="B7">I enjoy a Daddy banning all toilet use when in diapers, using them for all needs</label><br/><output id="O7" class="red">Strongly Disagree</output>
+        <input class="red" id="B7" type="range" value="0" min="0" max="4" onchange="babyChange(7)" aria-label="Rate potty ban" />
+        </p>
+        <p class="activity"><label for="B8">I enjoy a Daddy enforcing incontinence with diuretics (e.g., cranberry juice) and laxatives multiple times a week</label><br/><output id="O8" class="red">Strongly Disagree</output>
+        <input class="red" id="B8" type="range" value="0" min="0" max="4" onchange="babyChange(8)" aria-label="Rate enforced incontinence" />
+        </p>
+        <p class="activity"><label for="B9">I am comfortable with a Daddy using fibre supplements daily to increase diaper use</label><br/><output id="O9" class="red">Strongly Disagree</output>
+        <input class="red" id="B9" type="range" value="0" min="0" max="4" onchange="babyChange(9)" aria-label="Rate fibre loading" />
+        </p>
+        <p class="activity"><label for="B10">I enjoy a Daddy using weekly suppositories or enemas to ensure diaper use</label><br/><output id="O10" class="red">Strongly Disagree</output>
+        <input class="red" id="B10" type="range" value="0" min="0" max="4" onchange="babyChange(10)" aria-label="Rate weekly suppositories" />
+        </p>
+        <p class="activity"><label for="B11">I am comfortable drinking 3 liters of water daily to increase diaper wetting, as set by a Daddy</label><br/><output id="O11" class="red">Strongly Disagree</output>
+        <input class="red" id="B11" type="range" value="0" min="0" max="4" onchange="babyChange(11)" aria-label="Rate water intake" />
+        </p>
+        <p class="activity"><label for="B12">I enjoy a Daddy requiring permission for all diaper changes, with no self-changes when together</label><br/><output id="O12" class="red">Strongly Disagree</output>
+        <input class="red" id="B12" type="range" value="0" min="0" max="4" onchange="babyChange(12)" aria-label="Rate strict diaper checks" />
+        </p>
+        <p class="activity"><label for="B13">I enjoy a Daddy requiring me to ask for diaper checks or changes when together</label><br/><output id="O13" class="red">Strongly Disagree</output>
+        <input class="red" id="B13" type="range" value="0" min="0" max="4" onchange="babyChange(13)" aria-label="Rate moderate diaper checks" />
+        </p>
+        <p class="activity"><label for="B14">I prefer managing my own diaper changes with occasional checks by a Daddy</label><br/><output id="O14" class="red">Strongly Disagree</output>
+        <input class="red" id="B14" type="range" value="0" min="0" max="4" onchange="babyChange(14)" aria-label="Rate light diaper checks" />
+        </p>
+        <p class="activity"><label for="B15">I enjoy a Daddy enforcing strict punishments (e.g., spankings for any minor infraction) alongside two weekly maintenance punishments</label><br/><output id="O15" class="red">Strongly Disagree</output>
+        <input class="red" id="B15" type="range" value="0" min="0" max="4" onchange="babyChange(15)" aria-label="Rate strict punishments" />
+        </p>
+        <p class="activity"><label for="B16">I am comfortable with a Daddy giving two weekly maintenance punishments to assert control</label><br/><output id="O16" class="red">Strongly Disagree</output>
+        <input class="red" id="B16" type="range" value="0" min="0" max="4" onchange="babyChange(16)" aria-label="Rate moderate punishments" />
+        </p>
+        <p class="activity"><label for="B17">I enjoy daily babying, including bottles, pacifiers, bibs, baby talk, and crawling, enforced by a Daddy</label><br/><output id="O17" class="red">Strongly Disagree</output>
+        <input class="red" id="B17" type="range" value="0" min="0" max="4" onchange="babyChange(17)" aria-label="Rate extensive babying" />
+        </p>
+        <p class="activity"><label for="B18">I enjoy using pacifiers and baby-themed clothes (e.g., onesies) at home with a Daddy’s encouragement</label><br/><output id="O18" class="red">Strongly Disagree</output>
+        <input class="red" id="B18" type="range" value="0" min="0" max="4" onchange="babyChange(18)" aria-label="Rate moderate babying" />
+        </p>
+        <p class="activity"><label for="B19">I enjoy occasional babying, like drinking from a bottle at bedtime, with a Daddy’s support</label><br/><output id="O19" class="red">Strongly Disagree</output>
+        <input class="red" id="B19" type="range" value="0" min="0" max="4" onchange="babyChange(19)" aria-label="Rate light babying" />
+        </p>
+        <button type="button" onclick="computeBabyType()">Submit Quiz</button>
+    </form>
+
+    <div id="result" style="display: none;">
+        <h2>Your Age Play Baby Role</h2>
+        <p id="baby-type"></p>
+        <p><a href="index.html">Back to Main List</a></p>
+    </div>
+
+    <script>
+        const ratings = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
+        const classes = ["red", "curious", "ylike", "moderate", "ohyes"];
+        const babyTypes = {
+            twentyFourSevenBaby: { name: "24/7 Baby", description: "You naturally thrive living as a baby full-time, enjoying nurturing care with diapers and extensive babying like bottles and pacifiers." },
+            twentyFourSevenDD: { name: "24/7 DD", description: "You enjoy a Daddy forcing you to live as a baby 24/7, with strict rules like mandatory diaper use, no toilet access, and enforced incontinence." },
+            strictDD: { name: "Strict DD", description: "You like a Daddy forcing you to wear and use diapers, with strict discipline and punishments." },
+            regularBaby: { name: "Regular Baby", description: "You naturally enjoy regressing to a baby role occasionally, with gentle diaper use and light babying from a Daddy." },
+            regularDD: { name: "Regular DD", description: "You enjoy a Daddy encouraging occasional diaper use with moderate structure and minimal babying." },
+            weekendBaby: { name: "Weekend Baby", description: "You naturally regress to a baby role on weekends, with light diaper use and basic babying from a Daddy." }
+        };
+
+        function babyChange(index) {
+            const output = document.getElementById(`O${index}`);
+            const input = document.getElementById(`B${index}`);
+            const value = parseInt(input.value);
+            output.textContent = ratings[value];
+            output.className = classes[value];
+            input.className = classes[value];
+        }
+
+        function computeBabyType() {
+            const scores = {
+                twentyFourSevenBaby: 0,
+                twentyFourSevenDD: 0,
+                strictDD: 0,
+                regularBaby: 0,
+                regularDD: 0,
+                weekendBaby: 0
+            };
+
+            // Map responses to baby types (0–4 scale)
+            const responses = Array.from(document.querySelectorAll("#baby-quiz input")).map(input => parseInt(input.value));
+            scores.twentyFourSevenBaby += responses[1] * 0.5 + responses[14] + responses[17] + responses[18] * 0.5 + responses[19]; // Q1 (moderate), Q14, Q17, Q18 (moderate), Q19
+            scores.twentyFourSevenDD += responses[0] + responses[3] + responses[4] + responses[7] + responses[8] + responses[9] + responses[10] + responses[12] + responses[15] + responses[17]; // Q0, Q3, Q4, Q7, Q8, Q9, Q10, Q12, Q15, Q17
+            scores.strictDD += responses[4] + responses[9] + responses[10] + responses[11] + responses[12] + responses[13] + responses[15] + responses[16]; // Q4, Q9, Q10, Q11, Q12, Q13, Q15, Q16
+            scores.regularBaby += responses[1] + responses[5] + responses[6] + responses[14] + responses[18] + responses[19]; // Q1, Q5, Q6, Q14, Q18, Q19
+            scores.regularDD += responses[1] + responses[3] * 0.5 + responses[5] + responses[11] + responses[13] + responses[16] + responses[18]; // Q1, Q3 (moderate), Q5, Q11, Q13, Q16, Q18
+            scores.weekendBaby += responses[2] + responses[6] + responses[14] + responses[19]; // Q2, Q6, Q14, Q19
+
+            // Normalize scores (max possible: 24/7 Baby: 20, 24/7 DD: 40, Strict DD: 32, Regular Baby: 24, Regular DD: 26, Weekend Baby: 16)
+            const normalized = {
+                twentyFourSevenBaby: scores.twentyFourSevenBaby / 20,
+                twentyFourSevenDD: scores.twentyFourSevenDD / 40,
+                strictDD: scores.strictDD / 32,
+                regularBaby: scores.regularBaby / 24,
+                regularDD: scores.regularDD / 26,
+                weekendBaby: scores.weekendBaby / 16
+            };
+
+            // Find highest scoring type, default to Regular Baby if all scores are 0
+            const maxScore = Math.max(...Object.values(normalized));
+            const resultType = maxScore === 0 ? "regularBaby" : Object.keys(normalized).find(type => normalized[type] === maxScore);
+            const result = babyTypes[resultType];
+
+            // Display result
+            document.getElementById("baby-type").textContent = `${result.name}: ${result.description}`;
+            document.getElementById("result").style.display = "block";
+            document.getElementById("baby-quiz").style.display = "none";
+            document.querySelector(".explaination").style.display = "none";
+        }
+    </script>
+</body>
+</html>

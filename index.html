@@ -7,30 +7,25 @@
     <title>BDSM Limits & Compatibility</title>
     <link rel="stylesheet" href="template2.css" type="text/css" />
     <link rel="shortcut icon" type="image/png" href="icon.png" />
-    <style>
-        .category { cursor: pointer; font-size: 1.2em; margin: 10px 0; }
-        .category-content { display: none; }
-        .category-content.active { display: block; }
-        #quick-quiz { display: none; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
-        #qrcode { margin-top: 10px; }
-        .progress-bar { width: 100%; height: 10px; background: #ddd; }
-        .progress-fill { height: 100%; background: #4caf50; width: 0; transition: width 0.3s; }
-    </style>
+
 </head>
 <body>
     <h1><img src="icon1.webp" width="44" height="44"> BDSM Limits & Compatibility</h1>
     <div class="explaination">
         <ul>
-            <li>Left position = <span class="noway">No Way!</span></li>
+            <li>Left position = <span class="red">No Way!</span></li>
             <li>2nd position = <span class="curious">Curious</span></li>
             <li>3rd position = <span class="ylike">Do when you like!</span></li>
             <li>4th position = <span class="moderate">I Like it</span></li>
             <li>Right position = <span class="ohyes">Oh Yes!</span></li>
         </ul>
-        <p>Complete the list or try the <button onclick="startQuiz()">Quick Quiz</button> to generate a preliminary list. Then copy the URL and share with your play partner.</p>
+        <p>Complete the list or try the <button onclick="startQuiz()">Quick Quiz</button> to generate a preliminary list. Then copy the URL, generate a QR code, or export/import preferences.</p>
+        <p>
+            <button onclick="document.getElementById('import_file').click()">Import JSON</button>
+            <input type="file" id="import_file" accept=".json" style="display: none;" onchange="importPreferences(event)">
+        </p>
         <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
-
     <div id="quick-quiz">
         <h2>Quick Kink Quiz</h2>
         <p class="activity"><label>Kissing</label><br/><output id="Q0" class="red">No way!</output>
@@ -749,17 +744,13 @@
     </div>
 
 <section>
-  <h3>Additional Reading</h3>
+  <h3>Additional Links</h3>
   <ul>
+    <p>Take the <a href="ab_quiz.html"><button>What Type of Baby Are You?</button></a> quiz. Then copy the URL, generate a QR code, or export/import preferences.</p>
     <li><a href="https://dd-guide.webflow.io/benefits">Benefits Guide</a></li>
     <li><a href="https://kinkfinity.com/">Kinkfinity</a></li>
   </ul>
 </section>
-     </body>
-
-     
-     
-</html>
 
 
 
@@ -768,9 +759,7 @@
     const ratings = ["No way!", "Curious", "Do when you like!", "I Like it", "Oh Yes!"];
     const classes = ["red", "curious", "ylike", "moderate", "ohyes"];
     const chars = ["N", "C", "D", "M", "Y"];
-    const totalItems = 198; // Total sliders (188 existing + 10 new)
-
-    // Correlation mapping for quick quiz
+    const totalItems = 198;
     const correlations = {
         0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], // Kissing
         1: [2, 3, 4, 7, 8], // Oral (Received)
@@ -780,10 +769,10 @@
         5: [72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82], // Spanking
         6: [116, 117, 118, 119], // Blindfold
         7: [149, 34, 152, 153], // Domination
-        8: [150, 151, 162], // Humiliation
-        9: [154, 160, 161, 170, 171], // Food Control
+        8: [150, 151, 162, 193], // Humiliation (+ Food-Based Humiliation)
+        9: [154, 160, 161, 170, 171, 187, 191, 192, 194, 195, 196, 197], // Food Control (+ new food-related)
         10: [135, 136, 137], // Spit
-        11: [135, 150, 151, 154, 170, 171] // Masticated Food Consumption
+        11: [135, 150, 151, 154, 170, 171, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197] // Masticated Food Consumption (+ new food-related)
     };
 
     function colorize(index, prefix = "O") {
@@ -812,7 +801,7 @@
             if (input) {
                 hash += chars[parseInt(input.value)];
             } else {
-                hash += "N"; // Default for missing sliders
+                hash += "N";
             }
         }
         const url = `${window.location.origin}${window.location.pathname}#${hash}`;
@@ -835,6 +824,35 @@
             link.download = "bdsm_preferences.json";
             link.click();
         };
+    }
+
+    
+    function importPreferences(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const preferences = JSON.parse(e.target.result);
+                for (let i = 0; i < totalItems; i++) {
+                    const input = document.getElementById(`L${i}`);
+                    if (input) {
+                        const label = document.querySelector(`label[for="L${i}"]`)?.textContent || `Item ${i}`;
+                        const rating = preferences[label];
+                        if (rating && ratings.includes(rating)) {
+                            input.value = ratings.indexOf(rating);
+                            colorize(i);
+                        }
+                    }
+                }
+                compute();
+                updateProgress();
+                alert("Preferences imported successfully!");
+            } catch (error) {
+                alert("Error importing JSON: " + error.message);
+            }
+        };
+        reader.readAsText(file);
     }
 
     function getPreferences() {
@@ -878,7 +896,7 @@
             related.forEach(relatedId => {
                 const target = document.getElementById(`L${relatedId}`);
                 if (target) {
-                    target.value = Math.max(0, value - 1); // Slightly lower for related items
+                    target.value = Math.max(0, value - 1);
                     colorize(relatedId);
                 }
             });
@@ -908,3 +926,8 @@
         updateProgress();
     };
 </script>
+
+     </body> 
+</html>
+
+
