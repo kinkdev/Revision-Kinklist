@@ -77,6 +77,7 @@ h1 img {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    gap: 10px;
 }
 
 .activity label {
@@ -86,16 +87,18 @@ h1 img {
 }
 
 .activity output {
-    flex: 0 0 150px;
+    flex: 0 0 auto;
+    min-width: 60px;
     text-align: right;
     font-weight: bold;
+    padding-right: 10px;
 }
 
 /* Slider styling */
 input[type=range] {
-    flex: 0 0 200px;
-    width: 200px;
-    margin: 0 10px;
+    flex: 1;
+    width: clamp(120px, 40vw, 180px);
+    margin: 0;
     -webkit-appearance: none;
     background: #ddd;
     height: 8px;
@@ -213,36 +216,101 @@ form {
 }
 
 /* Responsive design */
-@media (max-width: 600px) {
-    .activity {
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        padding: 10px;
+        font-size: clamp(14px, 4vw, 16px);
+    }
+
+    h1 {
+        font-size: clamp(1.2em, 5vw, 1.5em);
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .activity label {
-        min-width: 100%;
-        margin-bottom: 5px;
+    h1 img {
+        width: 30px;
+        margin-bottom: 10px;
     }
 
-    .activity output {
-        text-align: left;
-        margin-bottom: 5px;
-    }
-
-    input[type=range] {
-        width: 100%;
-    }
-
-    h1 {
-        font-size: 1.5em;
+    .explaination {
+        padding: 10px;
+        font-size: 0.9em;
     }
 
     .category {
         font-size: 1em;
+        padding: 8px;
+    }
+
+    .category-content {
+        padding-left: 10px;
+    }
+
+    .activity {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .activity label {
+        width: auto;
+        min-width: 0;
+        text-align: left;
+    }
+
+    .activity output {
+        width: auto;
+        min-width: 0;
+        text-align: left;
+        padding-right: 0;
+    }
+
+    input[type=range] {
+        width: 100%;
+        max-width: 300px;
+        margin: 0;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        width: 20px;
+        height: 20px;
+    }
+
+    input[type=range]::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+    }
+
+    button, #export_button, #qr_button, #code {
+        padding: 12px 20px;
+        min-width: 48px;
+        min-height: 48px;
+        font-size: 1em;
+    }
+
+    .category:hover, #export_button:hover, #qr_button:hover, #code:hover {
+        background: initial;
+    }
+
+    .category:active, #export_button:active, #qr_button:active, #code:active {
+        background: #d0d0d0;
+    }
+
+    .progress-bar, #qrcode {
+        max-width: 100%;
+        overflow: hidden;
     }
 
     #quick-quiz {
         padding: 10px;
+        font-size: 0.9em;
+    }
+
+    #quick-quiz h2 {
+        font-size: 1.2em;
     }
 }
 
