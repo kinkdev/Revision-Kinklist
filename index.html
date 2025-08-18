@@ -61,8 +61,8 @@
         <p class="activity"><label>Spit</label><br/><output id="Q10" class="red">No way!</output>
         <input class="red" id="Q10-input" type="range" value="0" min="0" max="4" onchange="quizChange(10)" aria-label="Rate Spit preference" />
         </p>
-        <p class="activity"><label>Masticated Food Consumption</label><br/><output id="Q11" class="red">No way!</output>
-        <input class="red" id="Q11-input" type="range" value="0" min="0" max="4" onchange="quizChange(11)" aria-label="Rate Masticated Food Consumption preference" />
+        <p class="activity"><label>Getting Messy</label><br/><output id="Q11" class="red">No way!</output>
+        <input class="red" id="Q11-input" type="range" value="0" min="0" max="4" onchange="quizChange(11)" aria-label="Rate Getting Messy preference" />
         </p>
         <button onclick="generateQuickList()">Finish Quiz</button>
     </div>
@@ -772,17 +772,21 @@
         8: [150, 151, 162, 193], // Humiliation (+ Food-Based Humiliation)
         9: [154, 160, 161, 170, 171, 187, 191, 192, 194, 195, 196, 197], // Food Control (+ new food-related)
         10: [135, 136, 137], // Spit
-        11: [135, 150, 151, 154, 170, 171, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197] // Masticated Food Consumption (+ new food-related)
+        Plan: [11, 135, 150, 151, 154, 170, 171, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197] // Masticated Food Consumption (+ new food-related)
     };
 
     function colorize(index, prefix = "O") {
         const output = document.getElementById(`${prefix}${index}`);
-        const input = document.getElementById(`${prefix === "O" ? "L" : "Q"}${index}`);
+        const input = document.getElementById(`${prefix === "O" ? "L" : "Q"}${index}${prefix === "Q" ? "-input" : ""}`);
         const value = parseInt(input.value);
         output.textContent = ratings[value];
         output.className = classes[value];
         input.className = classes[value];
-        updateProgress();
+        if (prefix === "Q") {
+            updateProgress(true); // Update progress for quick quiz
+        } else {
+            updateProgress(); // Update progress for main form
+        }
     }
 
     function change(index) {
@@ -792,17 +796,14 @@
 
     function quizChange(index) {
         colorize(index, "Q");
+        // Optional: computeQuickQuiz(); // Uncomment to update URL for quick quiz changes
     }
 
     function compute() {
         let hash = "";
         for (let i = 0; i < totalItems; i++) {
             const input = document.getElementById(`L${i}`);
-            if (input) {
-                hash += chars[parseInt(input.value)];
-            } else {
-                hash += "N";
-            }
+            hash += input ? chars[parseInt(input.value)] : "N";
         }
         const url = `${window.location.origin}${window.location.pathname}#${hash}`;
         document.getElementById("code").onclick = () => {
@@ -826,7 +827,30 @@
         };
     }
 
-    
+    function computeQuickQuiz() {
+        // Generate a hash for quick quiz values only
+        let hash = "";
+        for (let i = 0; i < 12; i++) { // Quick quiz has 12 items
+            const input = document.getElementById(`Q${i}-input`);
+            hash += input ? chars[parseInt(input.value)] : "N";
+        }
+        // Pad with 'N' for remaining items to maintain compatibility
+        hash += "N".repeat(totalItems - 12);
+        const url = `${window.location.origin}${window.location.pathname}#${hash}`;
+        document.getElementById("code").onclick = () => {
+            navigator.clipboard.writeText(url);
+            alert("Quick quiz link copied to clipboard!");
+        };
+        document.getElementById("qr_button").onclick = () => {
+            document.getElementById("qrcode").innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 128,
+                height: 128
+            });
+        };
+    }
+
     function importPreferences(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -867,13 +891,16 @@
         return preferences;
     }
 
-    function updateProgress() {
-        const inputs = document.querySelectorAll("#main-form input[type=range]");
+    function updateProgress(isQuickQuiz = false) {
+        const inputs = isQuickQuiz
+            ? document.querySelectorAll("#quick-quiz input[type=range]")
+            : document.querySelectorAll("#main-form input[type=range]");
+        const total = isQuickQuiz ? 12 : totalItems;
         let filled = 0;
         inputs.forEach(input => {
             if (parseInt(input.value) > 0) filled++;
         });
-        const percentage = (filled / totalItems) * 100;
+        const percentage = (filled / total) * 100;
         document.getElementById("progress-fill").style.width = `${percentage}%`;
     }
 
@@ -886,6 +913,7 @@
         document.getElementById("quick-quiz").style.display = "block";
         document.getElementById("main-form").style.display = "none";
         document.querySelector(".explaination").style.display = "none";
+        updateProgress(true); // Initialize progress for quick quiz
     }
 
     function generateQuickList() {
