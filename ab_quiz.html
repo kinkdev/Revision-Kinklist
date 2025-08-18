@@ -7,6 +7,21 @@
     <title>What Type of Baby Are You?</title>
     <link rel="stylesheet" href="template2.css" type="text/css" />
     <link rel="shortcut icon" type="image/png" href="icon.png" />
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .activity { margin: 15px 0; }
+        .activity label { font-weight: bold; }
+        .activity input[type="range"] { margin: 10px 0; }
+        .result { margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; }
+        .result h2 { margin-top: 0; color: #333; }
+        .result h3 { margin-bottom: 10px; color: #555; }
+        .answer-item { margin: 8px 0; padding: 5px; }
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background-color: #0056b3; }
+        #qrcode { margin-top: 10px; }
+        input[readonly] { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        input[readonly]:focus { outline: none; border-color: #007bff; }
+    </style>
 </head>
 <body>
     <h1><img src="icon1.webp" width="44" height="44"> What Type of Baby Are You?</h1>
@@ -18,9 +33,10 @@
             <li>4th position = <span class="moderate">Agree</span></li>
             <li>Right position = <span class="ohyes">Strongly Agree</span></li>
         </ul>
-        <p>Answer the questions to discover your Age Play baby role. Submit to see your result!</p>
+        <p>Answer the questions to discover your Age Play baby role. Submit to see your result and share via URL, QR code, or text file!</p>
     </div>
 
+    <!-- Quiz form remains unchanged (20 questions with sliders) -->
     <form id="baby-quiz">
         <p class="activity"><label for="B0">I enjoy wearing diapers 24/7 with no exceptions, replacing all underwear, as enforced by a Daddy</label><br/><output id="O0" class="red">Strongly Disagree</output>
         <input class="red" id="B0" type="range" value="0" min="0" max="4" onchange="babyChange(0)" aria-label="Rate 24/7 diaper wearing" />
@@ -85,12 +101,20 @@
         <button type="button" onclick="computeBabyType()">Submit Quiz</button>
     </form>
 
-    <div id="result" style="display: none;">
+    <div id="result" class="result" style="display: none;">
         <h2>Your Age Play Baby Role</h2>
         <p id="baby-type"></p>
-        <p><a href="index.html">Back to Main List</a></p>
+        <h3>Your Answers</h3>
+        <div id="answers-text"></div>
+        <button onclick="copyLink()">Copy Shareable Link</button>
+        <button onclick="downloadAnswers()">Download Answers</button>
+        <button onclick="generateQR()">Generate QR Code</button>
+        <div id="qrcode"></div>
+        <p><input type="text" id="shareable-link" readonly onclick="this.select()"></p>
+        <p><a href="index.html">Back to Main List</a> <a href="https://dd-guide.webflow.io/benefits">Want to learn more</a></p>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         const ratings = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
         const classes = ["red", "curious", "ylike", "moderate", "ohyes"];
@@ -123,15 +147,15 @@
             };
 
             // Map responses to baby types (0–4 scale)
-            const responses = Array.from(document.querySelectorAll("#baby-quiz input")).map(input => parseInt(input.value));
-            scores.twentyFourSevenBaby += responses[1] * 0.5 + responses[14] + responses[17] + responses[18] * 0.5 + responses[19]; // Q1 (moderate), Q14, Q17, Q18 (moderate), Q19
-            scores.twentyFourSevenDD += responses[0] + responses[3] + responses[4] + responses[7] + responses[8] + responses[9] + responses[10] + responses[12] + responses[15] + responses[17]; // Q0, Q3, Q4, Q7, Q8, Q9, Q10, Q12, Q15, Q17
-            scores.strictDD += responses[4] + responses[9] + responses[10] + responses[11] + responses[12] + responses[13] + responses[15] + responses[16]; // Q4, Q9, Q10, Q11, Q12, Q13, Q15, Q16
-            scores.regularBaby += responses[1] + responses[5] + responses[6] + responses[14] + responses[18] + responses[19]; // Q1, Q5, Q6, Q14, Q18, Q19
-            scores.regularDD += responses[1] + responses[3] * 0.5 + responses[5] + responses[11] + responses[13] + responses[16] + responses[18]; // Q1, Q3 (moderate), Q5, Q11, Q13, Q16, Q18
-            scores.weekendBaby += responses[2] + responses[6] + responses[14] + responses[19]; // Q2, Q6, Q14, Q19
+            const responses = Array.from(document.querySelectorAll("#baby-quiz input[type=range]")).map(input => parseInt(input.value));
+            scores.twentyFourSevenBaby += responses[1] * 0.5 + responses[14] + responses[17] + responses[18] * 0.5 + responses[19];
+            scores.twentyFourSevenDD += responses[0] + responses[3] + responses[4] + responses[7] + responses[8] + responses[9] + responses[10] + responses[12] + responses[15] + responses[17];
+            scores.strictDD += responses[4] + responses[9] + responses[10] + responses[11] + responses[12] + responses[13] + responses[15] + responses[16];
+            scores.regularBaby += responses[1] + responses[5] + responses[6] + responses[14] + responses[18] + responses[19];
+            scores.regularDD += responses[1] + responses[3] * 0.5 + responses[5] + responses[11] + responses[13] + responses[16] + responses[18];
+            scores.weekendBaby += responses[2] + responses[6] + responses[14] + responses[19];
 
-            // Normalize scores (max possible: 24/7 Baby: 20, 24/7 DD: 40, Strict DD: 32, Regular Baby: 24, Regular DD: 26, Weekend Baby: 16)
+            // Normalize scores
             const normalized = {
                 twentyFourSevenBaby: scores.twentyFourSevenBaby / 20,
                 twentyFourSevenDD: scores.twentyFourSevenDD / 40,
@@ -151,7 +175,79 @@
             document.getElementById("result").style.display = "block";
             document.getElementById("baby-quiz").style.display = "none";
             document.querySelector(".explaination").style.display = "none";
+
+            // Generate and display answers with colors
+            const answers = getAnswers();
+            const answersContainer = document.getElementById("answers-text");
+            answersContainer.innerHTML = "";
+            answers.forEach(answer => {
+                const p = document.createElement("p");
+                p.className = `answer-item ${answer.class}`;
+                p.textContent = `- ${answer.label}: ${answer.rating}`;
+                answersContainer.appendChild(p);
+            });
+
+            // Generate shareable URL
+            const hash = responses.join("");
+            const url = `${window.location.origin}${window.location.pathname}#${hash}`;
+            document.getElementById("shareable-link").value = url;
         }
+
+        function getAnswers() {
+            const answers = [];
+            const inputs = document.querySelectorAll("#baby-quiz input[type=range]");
+            inputs.forEach((input, index) => {
+                const label = document.querySelector(`label[for="B${index}"]`).textContent;
+                const value = parseInt(input.value);
+                answers.push({
+                    label: label,
+                    rating: ratings[value],
+                    class: classes[value]
+                });
+            });
+            return answers;
+        }
+
+        function copyLink() {
+            const linkInput = document.getElementById("shareable-link");
+            linkInput.select();
+            navigator.clipboard.writeText(linkInput.value);
+            alert("Link copied to clipboard!");
+        }
+
+        function downloadAnswers() {
+            const answers = getAnswers();
+            const text = "My Age Play Baby Quiz Answers:\n" + answers.map(answer => `- ${answer.label}: ${answer.rating}`).join("\n");
+            const blob = new Blob([text], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "baby_quiz_answers.txt";
+            link.click();
+        }
+
+        function generateQR() {
+            const url = document.getElementById("shareable-link").value;
+            document.getElementById("qrcode").innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 128,
+                height: 128
+            });
+        }
+
+        window.onload = () => {
+            const hash = window.location.hash.slice(1);
+            if (hash && hash.length === 20 && /^[0-4]{20}$/.test(hash)) {
+                const responses = hash.split("").map(Number);
+                responses.forEach((value, index) => {
+                    const input = document.getElementById(`B${index}`);
+                    if (input) {
+                        input.value = value;
+                        babyChange(index);
+                    }
+                });
+            }
+        };
     </script>
 </body>
 </html>
