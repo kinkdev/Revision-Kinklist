@@ -1,847 +1,753 @@
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-        <meta name="viewport" content="initial-scale=1.0".>
-           <meta http-equiv="X-UA-Compatible" content="IE=9" />         
-        
-        <title>BDSM Limits & Compatibility</title>
-       
-        <link rel="stylesheet" href="template2.css" type="text/css" />
-        <link rel="shortcut icon" type="image/png" href="icon.png" />
-                                             
-     </head>
-     
-     
-     <body>
-     
-     
-        
-       <h1><img src="icon1.webp" width="44" height="44"> BDSM Limits & Compatibility</h1>
-       <!-- <a href="https://x.com/kinky_dev"> <img src="X_400x400.jpg" width="44" height="44"></a> -->
-       <div class="explaination">
-       <ul>
-       		<li>Left position = <span class="noway">No Way!</span></li>
-       		<li>2nd position = <span class="curious">Curious</span></li>
-	        <li>3nd position = <span class="ylike">Do when you like!</span></li>
-       		<li>4rd position = <span class="moderate">I Like it</span></li>
-       		<li>Right position = <span class="ohyes">Oh Yes!</span></li>
-		</ul>
-		
-       <p>Then copy the URL from your browser, and send it to your play partner.</p>
-		</div>
-       <form>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <title>BDSM Limits & Compatibility</title>
+    <link rel="stylesheet" href="template2.css" type="text/css" />
+    <link rel="shortcut icon" type="image/png" href="icon.png" />
+    <style>
+        .category { cursor: pointer; font-size: 1.2em; margin: 10px 0; }
+        .category-content { display: none; }
+        .category-content.active { display: block; }
+        #quick-quiz { display: none; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        #qrcode { margin-top: 10px; }
+        .progress-bar { width: 100%; height: 10px; background: #ddd; }
+        .progress-fill { height: 100%; background: #4caf50; width: 0; transition: width 0.3s; }
+    </style>
+</head>
+<body>
+    <h1><img src="icon1.webp" width="44" height="44"> BDSM Limits & Compatibility</h1>
+    <div class="explaination">
+        <ul>
+            <li>Left position = <span class="noway">No Way!</span></li>
+            <li>2nd position = <span class="curious">Curious</span></li>
+            <li>3rd position = <span class="ylike">Do when you like!</span></li>
+            <li>4th position = <span class="moderate">I Like it</span></li>
+            <li>Right position = <span class="ohyes">Oh Yes!</span></li>
+        </ul>
+        <p>Complete the list or try the <button onclick="startQuiz()">Quick Quiz</button> to generate a preliminary list. Then copy the URL and share with your play partner.</p>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div id="quick-quiz">
+        <h2>Quick Kink Quiz</h2>
+        <p class="activity"><label>Kissing</label><br/><output id="Q0" class="red">No way!</output>
+        <input class="red" id="Q0-input" type="range" value="0" min="0" max="4" onchange="quizChange(0)" aria-label="Rate Kissing preference" />
+        </p>
+        <p class="activity"><label>Oral (Received)</label><br/><output id="Q1" class="red">No way!</output>
+        <input class="red" id="Q1-input" type="range" value="0" min="0" max="4" onchange="quizChange(1)" aria-label="Rate Oral preference" />
+        </p>
+        <p class="activity"><label>Vibrator</label><br/><output id="Q2" class="red">No way!</output>
+        <input class="red" id="Q2-input" type="range" value="0" min="0" max="4" onchange="quizChange(2)" aria-label="Rate Vibrator preference" />
+        </p>
+        <p class="activity"><label>Edging</label><br/><output id="Q3" class="red">No way!</output>
+        <input class="red" id="Q3-input" type="range" value="0" min="0" max="4" onchange="quizChange(3)" aria-label="Rate Edging preference" />
+        </p>
+        <p class="activity"><label>Restraints</label><br/><output id="Q4" class="red">No way!</output>
+        <input class="red" id="Q4-input" type="range" value="0" min="0" max="4" onchange="quizChange(4)" aria-label="Rate Restraints preference" />
+        </p>
+        <p class="activity"><label>Spanking</label><br/><output id="Q5" class="red">No way!</output>
+        <input class="red" id="Q5-input" type="range" value="0" min="0" max="4" onchange="quizChange(5)" aria-label="Rate Spanking preference" />
+        </p>
+        <p class="activity"><label>Blindfold</label><br/><output id="Q6" class="red">No way!</output>
+        <input class="red" id="Q6-input" type="range" value="0" min="0" max="4" onchange="quizChange(6)" aria-label="Rate Blindfold preference" />
+        </p>
+        <p class="activity"><label>Domination</label><br/><output id="Q7" class="red">No way!</output>
+        <input class="red" id="Q7-input" type="range" value="0" min="0" max="4" onchange="quizChange(7)" aria-label="Rate Domination preference" />
+        </p>
+        <p class="activity"><label>Humiliation</label><br/><output id="Q8" class="red">No way!</output>
+        <input class="red" id="Q8-input" type="range" value="0" min="0" max="4" onchange="quizChange(8)" aria-label="Rate Humiliation preference" />
+        </p>
+        <p class="activity"><label>Food Control</label><br/><output id="Q9" class="red">No way!</output>
+        <input class="red" id="Q9-input" type="range" value="0" min="0" max="4" onchange="quizChange(9)" aria-label="Rate Food Control preference" />
+        </p>
+        <p class="activity"><label>Spit</label><br/><output id="Q10" class="red">No way!</output>
+        <input class="red" id="Q10-input" type="range" value="0" min="0" max="4" onchange="quizChange(10)" aria-label="Rate Spit preference" />
+        </p>
+        <p class="activity"><label>Masticated Food Consumption</label><br/><output id="Q11" class="red">No way!</output>
+        <input class="red" id="Q11-input" type="range" value="0" min="0" max="4" onchange="quizChange(11)" aria-label="Rate Masticated Food Consumption preference" />
+        </p>
+        <button onclick="generateQuickList()">Finish Quiz</button>
+    </div>
+
+    <form id="main-form">
+        <div class="category" onclick="toggleCategory('sex')">Sex</div>
+        <div id="sex" class="category-content">
+            <p class="activity"><label>Kissing</label><br/><output id="O0" class="red">No way!</output>
+            <input class="red" id="L0" type="range" value="0" min="0" max="4" onchange="change(0)" aria-label="Rate Kissing preference" />
+            </p>
+            <p class="activity"><label>Masturbation</label><br/><output id="O1" class="red">No way!</output>
+            <input class="red" id="L1" type="range" value="0" min="0" max="4" onchange="change(1)" />
+            </p>
+            <p class="activity"><label>Oral (Received)</label><br/><output id="O2" class="red">No way!</output>
+            <input class="red" id="L2" type="range" value="0" min="0" max="4" onchange="change(2)" />
+            </p>
+            <p class="activity"><label>Deepthroating</label><br/><output id="O3" class="red">No way!</output>
+            <input class="red" id="L3" type="range" value="0" min="0" max="4" onchange="change(3)" />
+            </p>
+            <p class="activity"><label>Face Fucking</label><br/><output id="O4" class="red">No way!</output>
+            <input class="red" id="L4" type="range" value="0" min="0" max="4" onchange="change(4)" />
+            </p>
+            <p class="activity"><label>Vaginal Penetration</label><br/><output id="O5" class="red">No way!</output>
+            <input class="red" id="L5" type="range" value="0" min="0" max="4" onchange="change(5)" />
+            </p>
+            <p class="activity"><label>Anal Penetration</label><br/><output id="O6" class="red">No way!</output>
+            <input class="red" id="L6" type="range" value="0" min="0" max="4" onchange="change(6)" />
+            </p>
+            <p class="activity"><label>Rimming (Received)</label><br/><output id="O7" class="red">No way!</output>
+            <input class="red" id="L7" type="range" value="0" min="0" max="4" onchange="change(7)" />
+            </p>
+            <p class="activity"><label>Rimming (Giving)</label><br/><output id="O8" class="red">No way!</output>
+            <input class="red" id="L8" type="range" value="0" min="0" max="4" onchange="change(8)" />
+            </p>
+            <p class="activity"><label>Vaginal Fisting</label><br/><output id="O9" class="red">No way!</output>
+            <input class="red" id="L9" type="range" value="0" min="0" max="4" onchange="change(9)" />
+            </p>
+            <p class="activity"><label>Anal Fisting</label><br/><output id="O10" class="red">No way!</output>
+            <input class="red" id="L10" type="range" value="0" min="0" max="4" onchange="change(10)" />
+            </p>
+            <p class="activity"><label>Licking</label><br/><output id="O11" class="red">No way!</output>
+            <input class="red" id="L11" type="range" value="0" min="0" max="4" onchange="change(11)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('toys')">Toys</div>
+        <div id="toys" class="category-content">
+            <p class="activity"><label>Dildo</label><br/><output id="O12" class="red">No way!</output>
+            <input class="red" id="L12" type="range" value="0" min="0" max="4" onchange="change(12)" />
+            </p>
+            <p class="activity"><label>Vibrator</label><br/><output id="O13" class="red">No way!</output>
+            <input class="red" id="L13" type="range" value="0" min="0" max="4" onchange="change(13)" />
+            </p>
+            <p class="activity"><label>Anal Plug</label><br/><output id="O14" class="red">No way!</output>
+            <input class="red" id="L14" type="range" value="0" min="0" max="4" onchange="change(14)" />
+            </p>
+            <p class="activity"><label>Strap-on</label><br/><output id="O15" class="red">No way!</output>
+            <input class="red" id="L15" type="range" value="0" min="0" max="4" onchange="change(15)" />
+            </p>
+            <p class="activity"><label>Anal Hook</label><br/><output id="O16" class="red">No way!</output>
+            <input class="red" id="L16" type="range" value="0" min="0" max="4" onchange="change(16)" />
+            </p>
+            <p class="activity"><label>Anal Balls</label><br/><output id="O17" class="red">No way!</output>
+            <input class="red" id="L17" type="range" value="0" min="0" max="4" onchange="change(17)" />
+            </p>
+            <p class="activity"><label>Inflatables</label><br/><output id="O18" class="red">No way!</output>
+            <input class="red" id="L18" type="range" value="0" min="0" max="4" onchange="change(18)" />
+            </p>
+            <p class="activity"><label>Fuck Machine</label><br/><output id="O19" class="red">No way!</output>
+            <input class="red" id="L19" type="range" value="0" min="0" max="4" onchange="change(19)" />
+            </p>
+            <p class="activity"><label>Milking Machine</label><br/><output id="O20" class="red">No way!</output>
+            <input class="red" id="L20" type="range" value="0" min="0" max="4" onchange="change(20)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('orgasm-control')">Orgasm Control</div>
+        <div id="orgasm-control" class="category-content">
+            <p class="activity"><label>Edging</label><br/><output id="O21" class="red">No way!</output>
+            <input class="red" id="L21" type="range" value="0" min="0" max="4" onchange="change(21)" />
+            </p>
+            <p class="activity"><label>Gooning</label><br/><output id="O22" class="red">No way!</output>
+            <input class="red" id="L22" type="range" value="0" min="0" max="4" onchange="change(22)" />
+            </p>
+            <p class="activity"><label>Chastity</label><br/><output id="O23" class="red">No way!</output>
+            <input class="red" id="L23" type="range" value="0" min="0" max="4" onchange="change(23)" />
+            </p>
+            <p class="activity"><label>Orgasm Denial</label><br/><output id="O24" class="red">No way!</output>
+            <input class="red" id="L24" type="range" value="0" min="0" max="4" onchange="change(24)" />
+            </p>
+            <p class="activity"><label>Forced Orgasm</label><br/><output id="O25" class="red">No way!</output>
+            <input class="red" id="L25" type="range" value="0" min="0" max="4" onchange="change(25)" />
+            </p>
+            <p class="activity"><label>Post Orgasm Torture</label><br/><output id="O26" class="red">No way!</output>
+            <input class="red" id="L26" type="range" value="0" min="0" max="4" onchange="change(26)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('worshipping')">Worshipping</div>
+        <div id="worshipping" class="category-content">
+            <p class="activity"><label>Brain/Intellect</label><br/><output id="O27" class="red">No way!</output>
+            <input class="red" id="L27" type="range" value="0" min="0" max="4" onchange="change(27)" />
+            </p>
+            <p class="activity"><label>Body/Muscles</label><br/><output id="O28" class="red">No way!</output>
+            <input class="red" id="L28" type="range" value="0" min="0" max="4" onchange="change(28)" />
+            </p>
+            <p class="activity"><label>Feet</label><br/><output id="O29" class="red">No way!</output>
+            <input class="red" id="L29" type="range" value="0" min="0" max="4" onchange="change(29)" />
+            </p>
+            <p class="activity"><label>Boots</label><br/><output id="O30" class="red">No way!</output>
+            <input class="red" id="L30" type="range" value="0" min="0" max="4" onchange="change(30)" />
+            </p>
+            <p class="activity"><label>Armpits</label><br/><output id="O31" class="red">No way!</output>
+            <input class="red" id="L31" type="range" value="0" min="0" max="4" onchange="change(31)" />
+            </p>
+            <p class="activity"><label>Genitals</label><br/><output id="O32" class="red">No way!</output>
+            <input class="red" id="L32" type="range" value="0" min="0" max="4" onchange="change(32)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('role-play')">Role Play</div>
+        <div id="role-play" class="category-content">
+            <p class="activity"><label>Age Play</label><br/><output id="O33" class="red">No way!</output>
+            <input class="red" id="L33" type="range" value="0" min="0" max="4" onchange="change(33)" />
+            </p>
+            <p class="activity"><label>Master/Slave</label><br/><output id="O34" class="red">No way!</output>
+            <input class="red" id="L34" type="range" value="0" min="0" max="4" onchange="change(34)" />
+            </p>
+            <p class="activity"><label>Doctor/Patient</label><br/><output id="O35" class="red">No way!</output>
+            <input class="red" id="L35" type="range" value="0" min="0" max="4" onchange="change(35)" />
+            </p>
+            <p class="activity"><label>Carer/Adult Baby</label><br/><output id="O36" class="red">No way!</output>
+            <input class="red" id="L36" type="range" value="0" min="0" max="4" onchange="change(36)" />
+            </p>
+            <p class="activity"><label>Pet Play/Puppy Play</label><br/><output id="O37" class="red">No way!</output>
+            <input class="red" id="L37" type="range" value="0" min="0" max="4" onchange="change(37)" />
+            </p>
+            <p class="activity"><label>Race Play</label><br/><output id="O38" class="red">No way!</output>
+            <input class="red" id="L38" type="range" value="0" min="0" max="4" onchange="change(38)" />
+            </p>
+            <p class="activity"><label>Kidnapping</label><br/><output id="O39" class="red">No way!</output>
+            <input class="red" id="L39" type="range" value="0" min="0" max="4" onchange="change(39)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('fantasy-play')">Fantasy Play</div>
+        <div id="fantasy-play" class="category-content">
+            <p class="activity"><label>Furry</label><br/><output id="O40" class="red">No way!</output>
+            <input class="red" id="L40" type="range" value="0" min="0" max="4" onchange="change(40)" />
+            </p>
+            <p class="activity"><label>Pony</label><br/><output id="O41" class="red">No way!</output>
+            <input class="red" id="L41" type="range" value="0" min="0" max="4" onchange="change(41)" />
+            </p>
+            <p class="activity"><label>Vorarephilia (Vore)</label><br/><output id="O42" class="red">No way!</output>
+            <input class="red" id="L42" type="range" value="0" min="0" max="4" onchange="change(42)" />
+            </p>
+            <p class="activity"><label>Macrophilia</label><br/><output id="O43" class="red">No way!</output>
+            <input class="red" id="L43" type="range" value="0" min="0" max="4" onchange="change(43)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('bondage')">Bondage</div>
+        <div id="bondage" class="category-content">
+            <p class="activity"><label>Restraints</label><br/><output id="O44" class="red">No way!</output>
+            <input class="red" id="L44" type="range" value="0" min="0" max="4" onchange="change(44)" />
+            </p>
+            <p class="activity"><label>Rope Bondage</label><br/><output id="O45" class="red">No way!</output>
+            <input class="red" id="L45" type="range" value="0" min="0" max="4" onchange="change(45)" />
+            </p>
+            <p class="activity"><label>Long Term Bondage</label><br/><output id="O46" class="red">No way!</output>
+            <input class="red" id="L46" type="range" value="0" min="0" max="4" onchange="change(46)" />
+            </p>
+            <p class="activity"><label>Mummification</label><br/><output id="O47" class="red">No way!</output>
+            <input class="red" id="L47" type="range" value="0" min="0" max="4" onchange="change(47)" />
+            </p>
+            <p class="activity"><label>Sleepsack</label><br/><output id="O48" class="red">No way!</output>
+            <input class="red" id="L48" type="range" value="0" min="0" max="4" onchange="change(48)" />
+            </p>
+            <p class="activity"><label>Straightjacket</label><br/><output id="O49" class="red">No way!</output>
+            <input class="red" id="L49" type="range" value="0" min="0" max="4" onchange="change(49)" />
+            </p>
+            <p class="activity"><label>Predicament Bondage</label><br/><output id="O50" class="red">No way!</output>
+            <input class="red" id="L50" type="range" value="0" min="0" max="4" onchange="change(50)" />
+            </p>
+            <p class="activity"><label>Hair Ties</label><br/><output id="O51" class="red">No way!</output>
+            <input class="red" id="L51" type="range" value="0" min="0" max="4" onchange="change(51)" />
+            </p>
+            <p class="activity"><label>Neck Ropes</label><br/><output id="O52" class="red">No way!</output>
+            <input class="red" id="L52" type="range" value="0" min="0" max="4" onchange="change(52)" />
+            </p>
+            <p class="activity"><label>Hogtie</label><br/><output id="O53" class="red">No way!</output>
+            <input class="red" id="L53" type="range" value="0" min="0" max="4" onchange="change(53)" />
+            </p>
+            <p class="activity"><label>Spread-eagle</label><br/><output id="O54" class="red">No way!</output>
+            <input class="red" id="L54" type="range" value="0" min="0" max="4" onchange="change(54)" />
+            </p>
+            <p class="activity"><label>Vacuum Bed</label><br/><output id="O55" class="red">No way!</output>
+            <input class="red" id="L55" type="range" value="0" min="0" max="4" onchange="change(55)" />
+            </p>
+            <p class="activity"><label>Mitts</label><br/><output id="O56" class="red">No way!</output>
+            <input class="red" id="L56" type="range" value="0" min="0" max="4" onchange="change(56)" />
+            </p>
+            <p class="activity"><label>Collar</label><br/><output id="O57" class="red">No way!</output>
+            <input class="red" id="L57" type="range" value="0" min="0" max="4" onchange="change(57)" />
+            </p>
+            <p class="activity"><label>Suspension</label><br/><output id="O58" class="red">No way!</output>
+            <input class="red" id="L58" type="range" value="0" min="0" max="4" onchange="change(58)" />
+            </p>
+            <p class="activity"><label>Inversion Bondage</label><br/><output id="O59" class="red">No way!</output>
+            <input class="red" id="L59" type="range" value="0" min="0" max="4" onchange="change(59)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('gags')">Gags</div>
+        <div id="gags" class="category-content">
+            <p class="activity"><label>Fabric/Bandana</label><br/><output id="O60" class="red">No way!</output>
+            <input class="red" id="L60" type="range" value="0" min="0" max="4" onchange="change(60)" />
+            </p>
+            <p class="activity"><label>Sock</label><br/><output id="O61" class="red">No way!</output>
+            <input class="red" id="L61" type="range" value="0" min="0" max="4" onchange="change(61)" />
+            </p>
+            <p class="activity"><label>Bit Gag</label><br/><output id="O62" class="red">No way!</output>
+            <input class="red" id="L62" type="range" value="0" min="0" max="4" onchange="change(62)" />
+            </p>
+            <p class="activity"><label>Ball Gag</label><br/><output id="O63" class="red">No way!</output>
+            <input class="red" id="L63" type="range" value="0" min="0" max="4" onchange="change(63)" />
+            </p>
+            <p class="activity"><label>Adult Pacifier</label><br/><output id="O64" class="red">No way!</output>
+            <input class="red" id="L64" type="range" value="0" min="0" max="4" onchange="change(64)" />
+            </p>
+            <p class="activity"><label>Pecker Gag</label><br/><output id="O65" class="red">No way!</output>
+            <input class="red" id="L65" type="range" value="0" min="0" max="4" onchange="change(65)" />
+            </p>
+            <p class="activity"><label>Inflatable Gag</label><br/><output id="O66" class="red">No way!</output>
+            <input class="red" id="L66" type="range" value="0" min="0" max="4" onchange="change(66)" />
+            </p>
+            <p class="activity"><label>O-ring</label><br/><output id="O67" class="red">No way!</output>
+            <input class="red" id="L67" type="range" value="0" min="0" max="4" onchange="change(67)" />
+            </p>
+            <p class="activity"><label>Dental Gag</label><br/><output id="O68" class="red">No way!</output>
+            <input class="red" id="L68" type="range" value="0" min="0" max="4" onchange="change(68)" />
+            </p>
+            <p class="activity"><label>Adhesive Tape</label><br/><output id="O69" class="red">No way!</output>
+            <input class="red" id="L69" type="range" value="0" min="0" max="4" onchange="change(69)" />
+            </p>
+            <p class="activity"><label>Muzzle</label><br/><output id="O70" class="red">No way!</output>
+            <input class="red" id="L70" type="range" value="0" min="0" max="4" onchange="change(70)" />
+            </p>
+            <p class="activity"><label>Nose Hook</label><br/><output id="O71" class="red">No way!</output>
+            <input class="red" id="L71" type="range" value="0" min="0" max="4" onchange="change(71)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('impact-play')">Impact Play</div>
+        <div id="impact-play" class="category-content">
+            <p class="activity"><label>Spanking</label><br/><output id="O72" class="red">No way!</output>
+            <input class="red" id="L72" type="range" value="0" min="0" max="4" onchange="change(72)" />
+            </p>
+            <p class="activity"><label>Paddling</label><br/><output id="O73" class="red">No way!</output>
+            <input class="red" id="L73" type="range" value="0" min="0" max="4" onchange="change(73)" />
+            </p>
+            <p class="activity"><label>Slapping</label><br/><output id="O74" class="red">No way!</output>
+            <input class="red" id="L74" type="range" value="0" min="0" max="4" onchange="change(74)" />
+            </p>
+            <p class="activity"><label>Flogging</label><br/><output id="O75" class="red">No way!</output>
+            <input class="red" id="L75" type="range" value="0" min="0" max="4" onchange="change(75)" />
+            </p>
+            <p class="activity"><label>Riding Crop</label><br/><output id="O76" class="red">No way!</output>
+            <input class="red" id="L76" type="range" value="0" min="0" max="4" onchange="change(76)" />
+            </p>
+            <p class="activity"><label>Caning</label><br/><output id="O77" class="red">No way!</output>
+            <input class="red" id="L77" type="range" value="0" min="0" max="4" onchange="change(77)" />
+            </p>
+            <p class="activity"><label>Whipping</label><br/><output id="O78" class="red">No way!</output>
+            <input class="red" id="L78" type="range" value="0" min="0" max="4" onchange="change(78)" />
+            </p>
+            <p class="activity"><label>Bastinado</label><br/><output id="O79" class="red">No way!</output>
+            <input class="red" id="L79" type="range" value="0" min="0" max="4" onchange="change(79)" />
+            </p>
+            <p class="activity"><label>No Warmup</label><br/><output id="O80" class="red">No way!</output>
+            <input class="red" id="L80" type="range" value="0" min="0" max="4" onchange="change(80)" />
+            </p>
+            <p class="activity"><label>Gut Punching</label><br/><output id="O81" class="red">No way!</output>
+            <input class="red" id="L81" type="range" value="0" min="0" max="4" onchange="change(81)" />
+            </p>
+            <p class="activity"><label>Trampling</label><br/><output id="O82" class="red">No way!</output>
+            <input class="red" id="L82" type="range" value="0" min="0" max="4" onchange="change(82)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('sensation-play')">Sensation Play</div>
+        <div id="sensation-play" class="category-content">
+            <p class="activity"><label>Pinwheel</label><br/><output id="O83" class="red">No way!</output>
+            <input class="red" id="L83" type="range" value="0" min="0" max="4" onchange="change(83)" />
+            </p>
+            <p class="activity"><label>Wax</label><br/><output id="O84" class="red">No way!</output>
+            <input class="red" id="L84" type="range" value="0" min="0" max="4" onchange="change(84)" />
+            </p>
+            <p class="activity"><label>Ice</label><br/><output id="O85" class="red">No way!</output>
+            <input class="red" id="L85" type="range" value="0" min="0" max="4" onchange="change(85)" />
+            </p>
+            <p class="activity"><label>Biting</label><br/><output id="O86" class="red">No way!</output>
+            <input class="red" id="L86" type="range" value="0" min="0" max="4" onchange="change(86)" />
+            </p>
+            <p class="activity"><label>Clothes Pegs</label><br/><output id="O87" class="red">No way!</output>
+            <input class="red" id="L87" type="range" value="0" min="0" max="4" onchange="change(87)" />
+            </p>
+            <p class="activity"><label>Tickling</label><br/><output id="O88" class="red">No way!</output>
+            <input class="red" id="L88" type="range" value="0" min="0" max="4" onchange="change(88)" />
+            </p>
+            <p class="activity"><label>Clawing</label><br/><output id="O89" class="red">No way!</output>
+            <input class="red" id="L89" type="range" value="0" min="0" max="4" onchange="change(89)" />
+            </p>
+            <p class="activity"><label>Gentle Teasing</label><br/><output id="O90" class="red">No way!</output>
+            <input class="red" id="L90" type="range" value="0" min="0" max="4" onchange="change(90)" />
+            </p>
+            <p class="activity"><label>Nipple Torture</label><br/><output id="O91" class="red">No way!</output>
+            <input class="red" id="L91" type="range" value="0" min="0" max="4" onchange="change(91)" />
+            </p>
+            <p class="activity"><label>Nipple Tweezer Clamps</label><br/><output id="O92" class="red">No way!</output>
+            <input class="red" id="L92" type="range" value="0" min="0" max="4" onchange="change(92)" />
+            </p>
+            <p class="activity"><label>Japanese Clover</label><br/><output id="O93" class="red">No way!</output>
+            <input class="red" id="L93" type="range" value="0" min="0" max="4" onchange="change(93)" />
+            </p>
+            <p class="activity"><label>Fire Play</label><br/><output id="O94" class="red">No way!</output>
+            <input class="red" id="L94" type="range" value="0" min="0" max="4" onchange="change(94)" />
+            </p>
+            <p class="activity"><label>Knife Play</label><br/><output id="O95" class="red">No way!</output>
+            <input class="red" id="L95" type="range" value="0" min="0" max="4" onchange="change(95)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('medical-play')">Medical Play</div>
+        <div id="medical-play" class="category-content">
+            <p class="activity"><label>Sounding</label><br/><output id="O96" class="red">No way!</output>
+            <input class="red" id="L96" type="range" value="0" min="0" max="4" onchange="change(96)" />
+            </p>
+            <p class="activity"><label>Needle Play</label><br/><output id="O97" class="red">No way!</output>
+            <input class="red" id="L97" type="range" value="0" min="0" max="4" onchange="change(97)" />
+            </p>
+            <p class="activity"><label>Piercing</label><br/><output id="O98" class="red">No way!</output>
+            <input class="red" id="L98" type="range" value="0" min="0" max="4" onchange="change(98)" />
+            </p>
+            <p class="activity"><label>Rectal Examination</label><br/><output id="O99" class="red">No way!</output>
+            <input class="red" id="L99" type="range" value="0" min="0" max="4" onchange="change(99)" />
+            </p>
+            <p class="activity"><label>Vaginal Examination</label><br/><output id="O100" class="red">No way!</output>
+            <input class="red" id="L100" type="range" value="0" min="0" max="4" onchange="change(100)" />
+            </p>
+            <p class="activity"><label>Urological Examination</label><br/><output id="O101" class="red">No way!</output>
+            <input class="red" id="L101" type="range" value="0" min="0" max="4" onchange="change(101)" />
+            </p>
+            <p class="activity"><label>Enemas</label><br/><output id="O102" class="red">No way!</output>
+            <input class="red" id="L102" type="range" value="0" min="0" max="4" onchange="change(102)" />
+            </p>
+            <p class="activity"><label>Suppositories</label><br/><output id="O103" class="red">No way!</output>
+            <input class="red" id="L103" type="range" value="0" min="0" max="4" onchange="change(103)" />
+            </p>
+            <p class="activity"><label>Prostate Massage</label><br/><output id="O104" class="red">No way!</output>
+            <input class="red" id="L104" type="range" value="0" min="0" max="4" onchange="change(104)" />
+            </p>
+            <p class="activity"><label>Orthopaedic Cast</label><br/><output id="O105" class="red">No way!</output>
+            <input class="red" id="L105" type="range" value="0" min="0" max="4" onchange="change(105)" />
+            </p>
+            <p class="activity"><label>Speculum</label><br/><output id="O106" class="red">No way!</output>
+            <input class="red" id="L106" type="range" value="0" min="0" max="4" onchange="change(106)" />
+            </p>
+            <p class="activity"><label>Blood Play</label><br/><output id="O107" class="red">No way!</output>
+            <input class="red" id="L107" type="range" value="0" min="0" max="4" onchange="change(107)" />
+            </p>
+            <p class="activity"><label>Genital Torture</label><br/><output id="O108" class="red">No way!</output>
+            <input class="red" id="L108" type="range" value="0" min="0" max="4" onchange="change(108)" />
+            </p>
+            <p class="activity"><label>Pin-prick Parachute</label><br/><output id="O109" class="red">No way!</output>
+            <input class="red" id="L109" type="range" value="0" min="0" max="4" onchange="change(109)" />
+            </p>
+            <p class="activity"><label>Tiger Balm on Genitals</label><br/><output id="O110" class="red">No way!</output>
+            <input class="red" id="L110" type="range" value="0" min="0" max="4" onchange="change(110)" />
+            </p>
+            <p class="activity"><label>Ball Stretching</label><br/><output id="O111" class="red">No way!</output>
+            <input class="red" id="L111" type="range" value="0" min="0" max="4" onchange="change(111)" />
+            </p>
+            <p class="activity"><label>Ball Crunching</label><br/><output id="O112" class="red">No way!</output>
+            <input class="red" id="L112" type="range" value="0" min="0" max="4" onchange="change(112)" />
+            </p>
+            <p class="activity"><label>Ball Slapping</label><br/><output id="O113" class="red">No way!</output>
+            <input class="red" id="L113" type="range" value="0" min="0" max="4" onchange="change(113)" />
+            </p>
+            <p class="activity"><label>Genital Bondage</label><br/><output id="O114" class="red">No way!</output>
+            <input class="red" id="L114" type="range" value="0" min="0" max="4" onchange="change(114)" />
+            </p>
+            <p class="activity"><label>Genital Clamps</label><br/><output id="O115" class="red">No way!</output>
+            <input class="red" id="L115" type="range" value="0" min="0" max="4" onchange="change(115)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('sensory-deprivation')">Sensory Deprivation</div>
+        <div id="sensory-deprivation" class="category-content">
+            <p class="activity"><label>Blindfold</label><br/><output id="O116" class="red">No way!</output>
+            <input class="red" id="L116" type="range" value="0" min="0" max="4" onchange="change(116)" />
+            </p>
+            <p class="activity"><label>Hood</label><br/><output id="O117" class="red">No way!</output>
+            <input class="red" id="L117" type="range" value="0" min="0" max="4" onchange="change(117)" />
+            </p>
+            <p class="activity"><label>Earplugs</label><br/><output id="O118" class="red">No way!</output>
+            <input class="red" id="L118" type="range" value="0" min="0" max="4" onchange="change(118)" />
+            </p>
+            <p class="activity"><label>Headphone/Whitenoise</label><br/><output id="O119" class="red">No way!</output>
+            <input class="red" id="L119" type="range" value="0" min="0" max="4" onchange="change(119)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('electro-stimulation')">Electro-stimulation</div>
+        <div id="electro-stimulation" class="category-content">
+            <p class="activity"><label>On Muscles</label><br/><output id="O120" class="red">No way!</output>
+            <input class="red" id="L120" type="range" value="0" min="0" max="4" onchange="change(120)" />
+            </p>
+            <p class="activity"><label>On Genitals</label><br/><output id="O121" class="red">No way!</output>
+            <input class="red" id="L121" type="range" value="0" min="0" max="4" onchange="change(121)" />
+            </p>
+            <p class="activity"><label>Vaginal</label><br/><output id="O122" class="red">No way!</output>
+            <input class="red" id="L122" type="range" value="0" min="0" max="4" onchange="change(122)" />
+            </p>
+            <p class="activity"><label>Anal</label><br/><output id="O123" class="red">No way!</output>
+            <input class="red" id="L123" type="range" value="0" min="0" max="4" onchange="change(123)" />
+            </p>
+            <p class="activity"><label>Violet Wand</label><br/><output id="O124" class="red">No way!</output>
+            <input class="red" id="L124" type="range" value="0" min="0" max="4" onchange="change(124)" />
+            </p>
+            <p class="activity"><label>Electric Shocks</label><br/><output id="O125" class="red">No way!</output>
+            <input class="red" id="L125" type="range" value="0" min="0" max="4" onchange="change(125)" />
+            </p>
+            <p class="activity"><label>Shocks Collar</label><br/><output id="O126" class="red">No way!</output>
+            <input class="red" id="L126" type="range" value="0" min="0" max="4" onchange="change(126)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('watersports')">Watersports</div>
+        <div id="watersports" class="category-content">
+            <p class="activity"><label>On Body</label><br/><output id="O127" class="red">No way!</output>
+            <input class="red" id="L127" type="range" value="0" min="0" max="4" onchange="change(127)" />
+            </p>
+            <p class="activity"><label>On Face</label><br/><output id="O128" class="red">No way!</output>
+            <input class="red" id="L128" type="range" value="0" min="0" max="4" onchange="change(128)" />
+            </p>
+            <p class="activity"><label>On Clothes</label><br/><output id="O129" class="red">No way!</output>
+            <input class="red" id="L129" type="range" value="0" min="0" max="4" onchange="change(129)" />
+            </p>
+            <p class="activity"><label>Drinking Own</label><br/><output id="O130" class="red">No way!</output>
+            <input class="red" id="L130" type="range" value="0" min="0" max="4" onchange="change(130)" />
+            </p>
+            <p class="activity"><label>Drinking Else's</label><br/><output id="O131" class="red">No way!</output>
+            <input class="red" id="L131" type="range" value="0" min="0" max="4" onchange="change(131)" />
+            </p>
+            <p class="activity"><label>Funnel Gag</label><br/><output id="O132" class="red">No way!</output>
+            <input class="red" id="L132" type="range" value="0" min="0" max="4" onchange="change(132)" />
+            </p>
+            <p class="activity"><label>Toilet Control</label><br/><output id="O133" class="red">No way!</output>
+            <input class="red" id="L133" type="range" value="0" min="0" max="4" onchange="change(133)" />
+            </p>
+            <p class="activity"><label>Scat</label><br/><output id="O134" class="red">No way!</output>
+            <input class="red" id="L134" type="range" value="0" min="0" max="4" onchange="change(134)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('bodily-fluids')">Bodily Fluids</div>
+        <div id="bodily-fluids" class="category-content">
+            <p class="activity"><label>Spit</label><br/><output id="O135" class="red">No way!</output>
+            <input class="red" id="L135" type="range" value="0" min="0" max="4" onchange="change(135)" />
+            </p>
+            <p class="activity"><label>Sweat</label><br/><output id="O136" class="red">No way!</output>
+            <input class="red" id="L136" type="range" value="0" min="0" max="4" onchange="change(136)" />
+            </p>
+            <p class="activity"><label>Vomit Play (Emetophilia)</label><br/><output id="O137" class="red">No way!</output>
+            <input class="red" id="L137" type="range" value="0" min="0" max="4" onchange="change(137)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('breath-play')">Breath Play</div>
+        <div id="breath-play" class="category-content">
+            <p class="activity"><label>Hand Over Mouth</label><br/><output id="O138" class="red">No way!</output>
+            <input class="red" id="L138" type="range" value="0" min="0" max="4" onchange="change(138)" />
+            </p>
+            <p class="activity"><label>Re-breather</label><br/><output id="O139" class="red">No way!</output>
+            <input class="red" id="L139" type="range" value="0" min="0" max="4" onchange="change(139)" />
+            </p>
+            <p class="activity"><label>Gas Mask</label><br/><output id="O140" class="red">No way!</output>
+            <input class="red" id="L140" type="range" value="0" min="0" max="4" onchange="change(140)" />
+            </p>
+            <p class="activity"><label>Swimming Cap</label><br/><output id="O141" class="red">No way!</output>
+            <input class="red" id="L141" type="range" value="0" min="0" max="4" onchange="change(141)" />
+            </p>
+            <p class="activity"><label>Strangulation</label><br/><output id="O142" class="red">No way!</output>
+            <input class="red" id="L142" type="range" value="0" min="0" max="4" onchange="change(142)" />
+            </p>
+            <p class="activity"><label>Forced Poppers</label><br/><output id="O143" class="red">No way!</output>
+            <input class="red" id="L143" type="range" value="0" min="0" max="4" onchange="change(143)" />
+            </p>
+            <p class="activity"><label>N2O</label><br/><output id="O144" class="red">No way!</output>
+            <input class="red" id="L144" type="range" value="0" min="0" max="4" onchange="change(144)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('marks')">Marks</div>
+        <div id="marks" class="category-content">
+            <p class="activity"><label>Lasting 1-2 Hours</label><br/><output id="O145" class="red">No way!</output>
+            <input class="red" id="L145" type="range" value="0" min="0" max="4" onchange="change(145)" />
+            </p>
+            <p class="activity"><label>Lasting 1-2 Days</label><br/><output id="O146" class="red">No way!</output>
+            <input class="red" id="L146" type="range" value="0" min="0" max="4" onchange="change(146)" />
+            </p>
+            <p class="activity"><label>Lasting 1-2 Weeks</label><br/><output id="O147" class="red">No way!</output>
+            <input class="red" id="L147" type="range" value="0" min="0" max="4" onchange="change(147)" />
+            </p>
+            <p class="activity"><label>Permanent Marks</label><br/><output id="O148" class="red">No way!</output>
+            <input class="red" id="L148" type="range" value="0" min="0" max="4" onchange="change(148)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('power-dynamics')">Power Dynamics</div>
+        <div id="power-dynamics" class="category-content">
+            <p class="activity"><label>Domination</label><br/><output id="O149" class="red">No way!</output>
+            <input class="red" id="L149" type="range" value="0" min="0" max="4" onchange="change(149)" />
+            </p>
+            <p class="activity"><label>Humiliation</label><br/><output id="O150" class="red">No way!</output>
+            <input class="red" id="L150" type="range" value="0" min="0" max="4" onchange="change(150)" />
+            </p>
+            <p class="activity"><label>Degradation</label><br/><output id="O151" class="red">No way!</output>
+            <input class="red" id="L151" type="range" value="0" min="0" max="4" onchange="change(151)" />
+            </p>
+            <p class="activity"><label>Submission to Others</label><br/><output id="O152" class="red">No way!</output>
+            <input class="red" id="L152" type="range" value="0" min="0" max="4" onchange="change(152)" />
+            </p>
+            <p class="activity"><label>Objectification as Furniture</label><br/><output id="O153" class="red">No way!</output>
+            <input class="red" id="L153" type="range" value="0" min="0" max="4" onchange="change(153)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('control-play')">Control Play</div>
+        <div id="control-play" class="category-content">
+            <p class="activity"><label>Food Control</label><br/><output id="O154" class="red">No way!</output>
+            <input class="red" id="L154" type="range" value="0" min="0" max="4" onchange="change(154)" />
+            </p>
+            <p class="activity"><label>Forced Clothing</label><br/><output id="O155" class="red">No way!</output>
+            <input class="red" id="L155" type="range" value="0" min="0" max="4" onchange="change(155)" />
+            </p>
+            <p class="activity"><label>Forced Workout</label><br/><output id="O156" class="red">No way!</output>
+            <input class="red" id="L156" type="range" value="0" min="0" max="4" onchange="change(156)" />
+            </p>
+            <p class="activity"><label>Forced Haircut</label><br/><output id="O157" class="red">No way!</output>
+            <input class="red" id="L157" type="range" value="0" min="0" max="4" onchange="change(157)" />
+            </p>
+            <p class="activity"><label>Shaving</label><br/><output id="O158" class="red">No way!</output>
+            <input class="red" id="L158" type="range" value="0" min="0" max="4" onchange="change(158)" />
+            </p>
+            <p class="activity"><label>Sissification</label><br/><output id="O159" class="red">No way!</output>
+            <input class="red" id="L159" type="range" value="0" min="0" max="4" onchange="change(159)" />
+            </p>
+            <p class="activity"><label>Force-Feeding (Gavage)</label><br/><output id="O160" class="red">No way!</output>
+            <input class="red" id="L160" type="range" value="0" min="0" max="4" onchange="change(160)" />
+            </p>
+            <p class="activity"><label>Masticated Food Consumption</label><br/><output id="O161" class="red">No way!</output>
+            <input class="red" id="L161" type="range" value="0" min="0" max="4" onchange="change(161)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('psychological-edge')">Psychological Edge</div>
+        <div id="psychological-edge" class="category-content">
+            <p class="activity"><label>Aggressive Language</label><br/><output id="O162" class="red">No way!</output>
+            <input class="red" id="L162" type="range" value="0" min="0" max="4" onchange="change(162)" />
+            </p>
+            <p class="activity"><label>Protocol</label><br/><output id="O163" class="red">No way!</output>
+            <input class="red" id="L163" type="range" value="0" min="0" max="4" onchange="change(163)" />
+            </p>
+            <p class="activity"><label>Play in Public</label><br/><output id="O164" class="red">No way!</output>
+            <input class="red" id="L164" type="range" value="0" min="0" max="4" onchange="change(164)" />
+            </p>
+            <p class="activity"><label>Hypnosis</label><br/><output id="O165" class="red">No way!</output>
+            <input class="red" id="L165" type="range" value="0" min="0" max="4" onchange="change(165)" />
+            </p>
+            <p class="activity"><label>Confusion</label><br/><output id="O166" class="red">No way!</output>
+            <input class="red" id="L166" type="range" value="0" min="0" max="4" onchange="change(166)" />
+            </p>
+            <p class="activity"><label>Fear</label><br/><output id="O167" class="red">No way!</output>
+            <input class="red" id="L167" type="range" value="0" min="0" max="4" onchange="change(167)" />
+            </p>
+            <p class="activity"><label>CNC</label><br/><output id="O168" class="red">No way!</output>
+            <input class="red" id="L168" type="range" value="0" min="0" max="4" onchange="change(168)" />
+            </p>
+            <p class="activity"><label>Isolation/Solitary</label><br/><output id="O169" class="red">No way!</output>
+            <input class="red" id="L169" type="range" value="0" min="0" max="4" onchange="change(169)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('food-play')">Food Play</div>
+        <div id="food-play" class="category-content">
+            <p class="activity"><label>Nyotaimori/Nantaimori</label><br/><output id="O170" class="red">No way!</output>
+            <input class="red" id="L170" type="range" value="0" min="0" max="4" onchange="change(170)" />
+            </p>
+            <p class="activity"><label>Sploshing/Wet and Messy</label><br/><output id="O171" class="red">No way!</output>
+            <input class="red" id="L171" type="range" value="0" min="0" max="4" onchange="change(171)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('object-fetish')">Object Fetish</div>
+        <div id="object-fetish" class="category-content">
+            <p class="activity"><label>Looning</label><br/><output id="O172" class="red">No way!</output>
+            <input class="red" id="L172" type="range" value="0" min="0" max="4" onchange="change(172)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('gear')">Gear</div>
+        <div id="gear" class="category-content">
+            <p class="activity"><label>Leather</label><br/><output id="O173" class="red">No way!</output>
+            <input class="red" id="L173" type="range" value="0" min="0" max="4" onchange="change(173)" />
+            </p>
+            <p class="activity"><label>Rubber</label><br/><output id="O174" class="red">No way!</output>
+            <input class="red" id="L174" type="range" value="0" min="0" max="4" onchange="change(174)" />
+            </p>
+            <p class="activity"><label>Spandex</label><br/><output id="O175" class="red">No way!</output>
+            <input class="red" id="L175" type="range" value="0" min="0" max="4" onchange="change(175)" />
+            </p>
+            <p class="activity"><label>Sports Kit</label><br/><output id="O176" class="red">No way!</output>
+            <input class="red" id="L176" type="range" value="0" min="0" max="4" onchange="change(176)" />
+            </p>
+            <p class="activity"><label>Diapers</label><br/><output id="O177" class="red">No way!</output>
+            <input class="red" id="L177" type="range" value="0" min="0" max="4" onchange="change(177)" />
+            </p>
+            <p class="activity"><label>Onesies</label><br/><output id="O178" class="red">No way!</output>
+            <input class="red" id="L178" type="range" value="0" min="0" max="4" onchange="change(178)" />
+            </p>
+            <p class="activity"><label>Bibs</label><br/><output id="O179" class="red">No way!</output>
+            <input class="red" id="L179" type="range" value="0" min="0" max="4" onchange="change(179)" />
+            </p>
+            <p class="activity"><label>Bottles</label><br/><output id="O180" class="red">No way!</output>
+            <input class="red" id="L180" type="range" value="0" min="0" max="4" onchange="change(180)" />
+            </p>
+        </div>
+
+        <div class="category" onclick="toggleCategory('photography')">Photography</div>
+        <div id="photography" class="category-content">
+            <p class="activity"><label>Body</label><br/><output id="O181" class="red">No way!</output>
+            <input class="red" id="L181" type="range" value="0" min="0" max="4" onchange="change(181)" />
+            </p>
+            <p class="activity"><label>Recognizable Face</label><br/><output id="O182" class="red">No way!</output>
+            <input class="red" id="L182" type="range" value="0" min="0" max="4" onchange="change(182)" />
+            </p>
+            <p class="activity"><label>Unrecognizable Face</label><br/><output id="O183" class="red">No way!</output>
+            <input class="red" id="L183" type="range" value="0" min="0" max="4" onchange="change(183)" />
+            </p>
+            <p class="activity"><label>Nipples</label><br/><output id="O184" class="red">No way!</output>
+            <input class="red" id="L184" type="range" value="0" min="0" max="4" onchange="change(184)" />
+            </p>
+            <p class="activity"><label>Genitals</label><br/><output id="O185" class="red">No way!</output>
+            <input class="red" id="L185" type="range" value="0" min="0" max="4" onchange="change(185)" />
+            </p>
+            <p class="activity"><label>Publishable Photography</label><br/><output id="O186" class="red">No way!</output>
+            <input class="red" id="L186" type="range" value="0" min="0" max="4" onchange="change(186)" />
+            </p>
+        </div>
+
+        <a href="javascript:void(0);" id="export_button">Export</a>
+        <span id="code" style="cursor: pointer; color: blue;">Generate Link</span>
+        <h1>QR Code Generator</h1>
+        <a href="javascript:void(0);" id="qr_button">Generate QR Code</a>
+        <div id="qrcode"></div>
+    </form>
+
+    <div class="explaination">
+        <p>Copy the URL from your browser, and send it to your play partner.</p>
+        <p>You or your play partner can bookmark the page to recall it later, with all its values.</p>
+        <p>You can also publish the link to social media or add it to your online profiles.</p>
+        <p>None of your preferences are saved on the server, if you modify your preferences, make sure you send another link.</p>
+        <p>If new kinky activities are added to this page, they'll appear as "No Way!" by default until you set new values for them and share the new link.</p>
+        <p>Only use this page as a complement to a more in-depth session planning. Make sure you have a safe-word (or safe gesture if gagged) or any agreement in place to withdraw consent during play.</p>
+        <p>It's free. We make no warranty. Use at your own risk.</p>
+        <p>Use common sense, stay safe, and very importantly, Have Fun!</p>
+    </div>
 
-<h2>Sex</h2>
-<p class="activity"><label>Kissing</label><br/><output id="O0" class="red">No way!</output>
-<input class="red" id="L0" type="range" value="0" min="0" max="4" onchange="change(0)" />
-</p>
-
-<p class="activity"><label>Masturbation</label><br/><output id="O1" class="red">No way!</output>
-<input class="red" id="L1" type="range" value="0" min="0" max="4" onchange="change(1)" />
-</p>
-
-<p class="activity"><label>Oral (Received)</label><br/><output id="O2" class="red">No way!</output>
-<input class="red" id="L2" type="range" value="0" min="0" max="4" onchange="change(2)" />
-</p>
-
-<p class="activity"><label>Oral (No ejaculation)</label><br/><output id="O3" class="red">No way!</output>
-<input class="red" id="L3" type="range" value="0" min="0" max="4" onchange="change(3)" />
-</p>
-
-<p class="activity"><label>Oral (With ejaculation)</label><br/><output id="O4" class="red">No way!</output>
-<input class="red" id="L4" type="range" value="0" min="0" max="4" onchange="change(4)" />
-</p>
-
-<p class="activity"><label>Deepthroating</label><br/><output id="O138" class="red">No way!</output>
-<input class="red" id="L138" type="range" value="0" min="0" max="4" onchange="change(138)" />
-</p>
-
-<p class="activity"><label>Face fucking</label><br/><output id="O139" class="red">No way!</output>
-<input class="red" id="L139" type="range" value="0" min="0" max="4" onchange="change(139)" />
-</p>
-
-<p class="activity"><label>Vaginal (Condom)</label><br/><output id="O5" class="red">No way!</output>
-<input class="red" id="L5" type="range" value="0" min="0" max="4" onchange="change(5)" />
-</p>
-
-<p class="activity"><label>Vaginal (Condomless)</label><br/><output id="O6" class="red">No way!</output>
-<input class="red" id="L6" type="range" value="0" min="0" max="4" onchange="change(6)" />
-</p>
-
-<p class="activity"><label>Anal (Condom)</label><br/><output id="O7" class="red">No way!</output>
-<input class="red" id="L7" type="range" value="0" min="0" max="4" onchange="change(7)" />
-</p>
-
-<p class="activity"><label>Anal (Condomless)</label><br/><output id="O8" class="red">No way!</output>
-<input class="red" id="L8" type="range" value="0" min="0" max="4" onchange="change(8)" />
-</p>
-
-<p class="activity"><label>Rimming (Received)</label><br/><output id="O174" class="red">No way!</output>
-<input class="red" id="L174" type="range" value="0" min="0" max="4" onchange="change(174)" />
-</p>
-
-<p class="activity"><label>Rimming (Giving)</label><br/><output id="O175" class="red">No way!</output>
-<input class="red" id="L175" type="range" value="0" min="0" max="4" onchange="change(175)" />
-</p>
-
-<p class="activity"><label>Vaginal FF</label><br/><output id="O9" class="red">No way!</output>
-<input class="red" id="L9" type="range" value="0" min="0" max="4" onchange="change(9)" />
-</p>
-
-<p class="activity"><label>Anal FF</label><br/><output id="O10" class="red">No way!</output>
-<input class="red" id="L10" type="range" value="0" min="0" max="4" onchange="change(10)" />
-</p>
-	       
-<p class="activity"><label>Licking</label><br/><output id="O191" class="red">No way!</output>
-<input class="red" id="L191" type="range" value="0" min="0" max="4" onchange="change(191)" />
-</p>
-	       
-<h2>Toys</h2>
-<p class="activity"><label>Dildo</label><br/><output id="O11" class="red">No way!</output>
-<input class="red" id="L11" type="range" value="0" min="0" max="4" onchange="change(11)" />
-</p>
-
-<p class="activity"><label>Vibrator</label><br/><output id="O12" class="red">No way!</output>
-<input class="red" id="L12" type="range" value="0" min="0" max="4" onchange="change(12)" />
-</p>
-
-<p class="activity"><label>Anal plug</label><br/><output id="O13" class="red">No way!</output>
-<input class="red" id="L13" type="range" value="0" min="0" max="4" onchange="change(13)" />
-</p>
-
-<p class="activity"><label>Strap-on</label><br/><output id="O14" class="red">No way!</output>
-<input class="red" id="L14" type="range" value="0" min="0" max="4" onchange="change(14)" />
-</p>
-
-<p class="activity"><label>Anal Hook</label><br/><output id="O150" class="red">No way!</output>
-<input class="red" id="L150" type="range" value="0" min="0" max="4" onchange="change(150)" />
-</p>
-
-<p class="activity"><label>Anal Balls</label><br/><output id="O160" class="red">No way!</output>
-<input class="red" id="L160" type="range" value="0" min="0" max="4" onchange="change(160)" />
-</p>
-
-<p class="activity"><label>Inflatables</label><br/><output id="O161" class="red">No way!</output>
-<input class="red" id="L161" type="range" value="0" min="0" max="4" onchange="change(161)" />
-</p>
-
-<p class="activity"><label>Fuck machine</label><br/><output id="O170" class="red">No way!</output>
-<input class="red" id="L170" type="range" value="0" min="0" max="4" onchange="change(170)" />
-</p>
-
-<p class="activity"><label>Milking machine</label><br/><output id="O171" class="red">No way!</output>
-<input class="red" id="L171" type="range" value="0" min="0" max="4" onchange="change(171)" />
-</p>
-
-<h2>Orgasm control</h2>
-<p class="activity"><label>Edging</label><br/><output id="O15" class="red">No way!</output>
-<input class="red" id="L15" type="range" value="0" min="0" max="4" onchange="change(15)" />
-</p>
-	       
-<p class="activity"><label>Gooning</label><br/><output id="O178" class="red">No way!</output>
-<input class="red" id="L178" type="range" value="0" min="0" max="4" onchange="change(178)" />
-</p>
-	       
-<p class="activity"><label>Chastity</label><br/><output id="O16" class="red">No way!</output>
-<input class="red" id="L16" type="range" value="0" min="0" max="4" onchange="change(16)" />
-</p>
-
-<p class="activity"><label>Orgasm denial</label><br/><output id="O17" class="red">No way!</output>
-<input class="red" id="L17" type="range" value="0" min="0" max="4" onchange="change(17)" />
-</p>
-
-<p class="activity"><label>Forced orgasm</label><br/><output id="O18" class="red">No way!</output>
-<input class="red" id="L18" type="range" value="0" min="0" max="4" onchange="change(18)" />
-</p>
-
-<p class="activity"><label>Prostate milking</label><br/><output id="O19" class="red">No way!</output>
-<input class="red" id="L19" type="range" value="0" min="0" max="4" onchange="change(19)" />
-</p>
-
-<p class="activity"><label>Post orgasm torture</label><br/><output id="O20" class="red">No way!</output>
-<input class="red" id="L20" type="range" value="0" min="0" max="4" onchange="change(20)" />
-</p>
-
-<h2>Worshipping</h2>
-<p class="activity"><label>Brain/Intellect</label><br/><output id="O177" class="red">No way!</output>
-<input class="red" id="L177" type="range" value="0" min="0" max="4" onchange="change(177)" />
-</p>
-	       
-<p class="activity"><label>Body/Muscles</label><br/><output id="O21" class="red">No way!</output>
-<input class="red" id="L21" type="range" value="0" min="0" max="4" onchange="change(21)" />
-</p>
-
-<p class="activity"><label>Feet</label><br/><output id="O22" class="red">No way!</output>
-<input class="red" id="L22" type="range" value="0" min="0" max="4" onchange="change(22)" />
-</p>
-
-<p class="activity"><label>Boots</label><br/><output id="O23" class="red">No way!</output>
-<input class="red" id="L23" type="range" value="0" min="0" max="4" onchange="change(23)" />
-</p>
-
-<p class="activity"><label>Armpits</label><br/><output id="O24" class="red">No way!</output>
-<input class="red" id="L24" type="range" value="0" min="0" max="4" onchange="change(24)" />
-</p>
-
-<p class="activity"><label>Genitals</label><br/><output id="O25" class="red">No way!</output>
-<input class="red" id="L25" type="range" value="0" min="0" max="4" onchange="change(25)" />
-</p>
-
-<h2>Role play</h2>
-<p class="activity"><label>Age play</label><br/><output id="O144" class="red">No way!</output>
-<input class="red" id="L144" type="range" value="0" min="0" max="4" onchange="change(144)" />
-</p>
-
-<p class="activity"><label>Master/Slave</label><br/><output id="O154" class="red">No way!</output>
-<input class="red" id="L154" type="range" value="0" min="0" max="4" onchange="change(154)" />
-</p>
-
-<p class="activity"><label>Dad/Mummy/Son/Daughter</label><br/><output id="O155" class="red">No way!</output>
-<input class="red" id="L155" type="range" value="0" min="0" max="4" onchange="change(155)" />
-</p>
-
-<p class="activity"><label>Doctor/Patient</label><br/><output id="O157" class="red">No way!</output>
-<input class="red" id="L157" type="range" value="0" min="0" max="4" onchange="change(157)" />
-</p>
-
-<p class="activity"><label>Carer/Adult baby</label><br/><output id="O156" class="red">No way!</output>
-<input class="red" id="L156" type="range" value="0" min="0" max="4" onchange="change(156)" />
-</p>
-
-<p class="activity"><label>Pet play/Puppy play</label><br/><output id="O145" class="red">No way!</output>
-<input class="red" id="L145" type="range" value="0" min="0" max="4" onchange="change(145)" />
-</p>
-
-<p class="activity"><label>Race play</label><br/><output id="O146" class="red">No way!</output>
-<input class="red" id="L146" type="range" value="0" min="0" max="4" onchange="change(146)" />
-</p>
-
-<p class="activity"><label>Kidnapping</label><br/><output id="O153" class="red">No way!</output>
-<input class="red" id="L153" type="range" value="0" min="0" max="4" onchange="change(153)" />
-</p>
-
-<p class="activity"><label>Furry</label><br/><output id="O179" class="red">No way!</output>
-<input class="red" id="L179" type="range" value="0" min="0" max="4" onchange="change(179)" />
-</p>
-<p class="activity"><label>Pony</label><br/><output id="O180" class="red">No way!</output>
-<input class="red" id="L180" type="range" value="0" min="0" max="4" onchange="change(180)" />
-</p>
-
-<h2>Nipple play</h2>
-<p class="activity"><label>Gentle teasing</label><br/><output id="O148" class="red">No way!</output>
-<input class="red" id="L148" type="range" value="0" min="0" max="4" onchange="change(148)" />
-</p>
-
-<p class="activity"><label>Suction cups</label><br/><output id="O26" class="red">No way!</output>
-<input class="red" id="L26" type="range" value="0" min="0" max="4" onchange="change(26)" />
-</p>
-
-<p class="activity"><label>Nipple Pinching</label><br/><output id="O27" class="red">No way!</output>
-<input class="red" id="L27" type="range" value="0" min="0" max="4" onchange="change(27)" />
-</p>
-
-<p class="activity"><label>Nipple Biting</label><br/><output id="O147" class="red">No way!</output>
-<input class="red" id="L147" type="range" value="0" min="0" max="4" onchange="change(147)" />
-</p>
-
-<p class="activity"><label>Nipple torture</label><br/><output id="O28" class="red">No way!</output>
-<input class="red" id="L28" type="range" value="0" min="0" max="4" onchange="change(28)" />
-</p>
-
-<p class="activity"><label>Nipple tweezer clamps</label><br/><output id="O29" class="red">No way!</output>
-<input class="red" id="L29" type="range" value="0" min="0" max="4" onchange="change(29)" />
-</p>
-
-<p class="activity"><label>Japanese clover</label><br/><output id="O30" class="red">No way!</output>
-<input class="red" id="L30" type="range" value="0" min="0" max="4" onchange="change(30)" />
-</p>
-
-<h2>Bondage</h2>
-<p class="activity"><label>Handcuffs</label><br/><output id="O31" class="red">No way!</output>
-<input class="red" id="L31" type="range" value="0" min="0" max="4" onchange="change(31)" />
-</p>
-
-<p class="activity"><label>Rope bondage</label><br/><output id="O32" class="red">No way!</output>
-<input class="red" id="L32" type="range" value="0" min="0" max="4" onchange="change(32)" />
-</p>
-
-<p class="activity"><label>Leather restraints</label><br/><output id="O33" class="red">No way!</output>
-<input class="red" id="L33" type="range" value="0" min="0" max="4" onchange="change(33)" />
-</p>
-
-<p class="activity"><label>Metal restaints</label><br/><output id="O34" class="red">No way!</output>
-<input class="red" id="L34" type="range" value="0" min="0" max="4" onchange="change(34)" />
-</p>
-
-<p class="activity"><label>Long term bondage</label><br/><output id="O35" class="red">No way!</output>
-<input class="red" id="L35" type="range" value="0" min="0" max="4" onchange="change(35)" />
-</p>
-
-<p class="activity"><label>Mummification</label><br/><output id="O36" class="red">No way!</output>
-<input class="red" id="L36" type="range" value="0" min="0" max="4" onchange="change(36)" />
-</p>
-
-<p class="activity"><label>Sleepsack</label><br/><output id="O132" class="red">No way!</output>
-<input class="red" id="L132" type="range" value="0" min="0" max="4" onchange="change(132)" />
-</p>
-
-<p class="activity"><label>Straightjacket</label><br/><output id="O133" class="red">No way!</output>
-<input class="red" id="L133" type="range" value="0" min="0" max="4" onchange="change(133)" />
-</p>
-
-<p class="activity"><label>Predicament bondage</label><br/><output id="O38" class="red">No way!</output>
-<input class="red" id="L38" type="range" value="0" min="0" max="4" onchange="change(38)" />
-</p>
-
-<p class="activity"><label>Hair ties</label><br/><output id="O39" class="red">No way!</output>
-<input class="red" id="L39" type="range" value="0" min="0" max="4" onchange="change(39)" />
-</p>
-
-<p class="activity"><label>Neck ropes</label><br/><output id="O40" class="red">No way!</output>
-<input class="red" id="L40" type="range" value="0" min="0" max="4" onchange="change(40)" />
-</p>
-
-<p class="activity"><label>Hogtie</label><br/><output id="O41" class="red">No way!</output>
-<input class="red" id="L41" type="range" value="0" min="0" max="4" onchange="change(41)" />
-</p>
-
-<p class="activity"><label>Spread-eagle</label><br/><output id="O42" class="red">No way!</output>
-<input class="red" id="L42" type="range" value="0" min="0" max="4" onchange="change(42)" />
-</p>
-
-<p class="activity"><label>Vacuum bed</label><br/><output id="O43" class="red">No way!</output>
-<input class="red" id="L43" type="range" value="0" min="0" max="4" onchange="change(43)" />
-</p>
-
-<p class="activity"><label>Mitts</label><br/><output id="O44" class="red">No way!</output>
-<input class="red" id="L44" type="range" value="0" min="0" max="4" onchange="change(44)" />
-</p>
-
-<p class="activity"><label>Collar</label><br/><output id="O45" class="red">No way!</output>
-<input class="red" id="L45" type="range" value="0" min="0" max="4" onchange="change(45)" />
-</p>
-
-<p class="activity"><label>Suspension</label><br/><output id="O37" class="red">No way!</output>
-<input class="red" id="L37" type="range" value="0" min="0" max="4" onchange="change(37)" />
-</p>
-
-<p class="activity"><label>Inversion Bondage</label><br/><output id="O162" class="red">No way!</output>
-<input class="red" id="L162" type="range" value="0" min="0" max="4" onchange="change(162)" />
-</p>
-
-<h2>Gags</h2>
-<p class="activity"><label>Fabric/Bandana</label><br/><output id="O46" class="red">No way!</output>
-<input class="red" id="L46" type="range" value="0" min="0" max="4" onchange="change(46)" />
-</p>
-
-<p class="activity"><label>Sock</label><br/><output id="O47" class="red">No way!</output>
-<input class="red" id="L47" type="range" value="0" min="0" max="4" onchange="change(47)" />
-</p>
-
-<p class="activity"><label>Bit gag</label><br/><output id="O48" class="red">No way!</output>
-<input class="red" id="L48" type="range" value="0" min="0" max="4" onchange="change(48)" />
-</p>
-
-<p class="activity"><label>Ball gag</label><br/><output id="O49" class="red">No way!</output>
-<input class="red" id="L49" type="range" value="0" min="0" max="4" onchange="change(49)" />
-</p>
-	       
-<p class="activity"><label>Adult Pacifier</label><br/><output id="O176" class="red">No way!</output>
-<input class="red" id="L176" type="range" value="0" min="0" max="4" onchange="change(176)" />
-</p>
-
-<p class="activity"><label>Pecker gag</label><br/><output id="O50" class="red">No way!</output>
-<input class="red" id="L50" type="range" value="0" min="0" max="4" onchange="change(50)" />
-</p>
-
-<p class="activity"><label>Inflatable gag</label><br/><output id="O168" class="red">No way!</output>
-<input class="red" id="L168" type="range" value="0" min="0" max="4" onchange="change(168)" />
-</p>
-
-<p class="activity"><label>O-ring</label><br/><output id="O51" class="red">No way!</output>
-<input class="red" id="L51" type="range" value="0" min="0" max="4" onchange="change(51)" />
-</p>
-
-<p class="activity"><label>Dental gag</label><br/><output id="O52" class="red">No way!</output>
-<input class="red" id="L52" type="range" value="0" min="0" max="4" onchange="change(52)" />
-</p>
-
-<p class="activity"><label>Adhesive tape</label><br/><output id="O53" class="red">No way!</output>
-<input class="red" id="L53" type="range" value="0" min="0" max="4" onchange="change(53)" />
-</p>
-
-<p class="activity"><label>Muzzle</label><br/><output id="O159" class="red">No way!</output>
-<input class="red" id="L159" type="range" value="0" min="0" max="4" onchange="change(159)" />
-</p>
-
-<p class="activity"><label>Noze hook</label><br/><output id="O169" class="red">No way!</output>
-<input class="red" id="L169" type="range" value="0" min="0" max="4" onchange="change(169)" />
-</p>
-
-<h2>Impact play</h2>
-<p class="activity"><label>Spanking</label><br/><output id="O54" class="red">No way!</output>
-<input class="red" id="L54" type="range" value="0" min="0" max="4" onchange="change(54)" />
-</p>
-
-<p class="activity"><label>Paddling</label><br/><output id="O55" class="red">No way!</output>
-<input class="red" id="L55" type="range" value="0" min="0" max="4" onchange="change(55)" />
-</p>
-
-<p class="activity"><label>Slapping</label><br/><output id="O56" class="red">No way!</output>
-<input class="red" id="L56" type="range" value="0" min="0" max="4" onchange="change(56)" />
-</p>
-
-<p class="activity"><label>Flogging</label><br/><output id="O57" class="red">No way!</output>
-<input class="red" id="L57" type="range" value="0" min="0" max="4" onchange="change(57)" />
-</p>
-
-<p class="activity"><label>Riding crop</label><br/><output id="O58" class="red">No way!</output>
-<input class="red" id="L58" type="range" value="0" min="0" max="4" onchange="change(58)" />
-</p>
-
-<p class="activity"><label>Caning</label><br/><output id="O59" class="red">No way!</output>
-<input class="red" id="L59" type="range" value="0" min="0" max="4" onchange="change(59)" />
-</p>
-
-<p class="activity"><label>Whipping</label><br/><output id="O60" class="red">No way!</output>
-<input class="red" id="L60" type="range" value="0" min="0" max="4" onchange="change(60)" />
-</p>
-
-<p class="activity"><label>Bastinado</label><br/><output id="O61" class="red">No way!</output>
-<input class="red" id="L61" type="range" value="0" min="0" max="4" onchange="change(61)" />
-</p>
-
-<p class="activity"><label>No warmup</label><br/><output id="O62" class="red">No way!</output>
-<input class="red" id="L62" type="range" value="0" min="0" max="4" onchange="change(62)" />
-</p>
-
-<p class="activity"><label>Gut punching</label><br/><output id="O63" class="red">No way!</output>
-<input class="red" id="L63" type="range" value="0" min="0" max="4" onchange="change(63)" />
-</p>
-
-<p class="activity"><label>Trampling</label><br/><output id="O64" class="red">No way!</output>
-<input class="red" id="L64" type="range" value="0" min="0" max="4" onchange="change(64)" />
-</p>
-
-<h2>Sensation play</h2>
-<p class="activity"><label>Pinwheel</label><br/><output id="O65" class="red">No way!</output>
-<input class="red" id="L65" type="range" value="0" min="0" max="4" onchange="change(65)" />
-</p>
-
-<p class="activity"><label>Wax</label><br/><output id="O66" class="red">No way!</output>
-<input class="red" id="L66" type="range" value="0" min="0" max="4" onchange="change(66)" />
-</p>
-
-<p class="activity"><label>Ice</label><br/><output id="O67" class="red">No way!</output>
-<input class="red" id="L67" type="range" value="0" min="0" max="4" onchange="change(67)" />
-</p>
-
-<p class="activity"><label>Biting</label><br/><output id="O68" class="red">No way!</output>
-<input class="red" id="L68" type="range" value="0" min="0" max="4" onchange="change(68)" />
-</p>
-
-<p class="activity"><label>Clothes pegs</label><br/><output id="O69" class="red">No way!</output>
-<input class="red" id="L69" type="range" value="0" min="0" max="4" onchange="change(69)" />
-</p>
-
-<p class="activity"><label>Tickling</label><br/><output id="O70" class="red">No way!</output>
-<input class="red" id="L70" type="range" value="0" min="0" max="4" onchange="change(70)" />
-</p>
-
-<p class="activity"><label>Clawing</label><br/><output id="O71" class="red">No way!</output>
-<input class="red" id="L71" type="range" value="0" min="0" max="4" onchange="change(71)" />
-</p>
-
-<h2>CBT/Genital torture</h2>
-<p class="activity"><label>On testicles</label><br/><output id="O72" class="red">No way!</output>
-<input class="red" id="L72" type="range" value="0" min="0" max="4" onchange="change(72)" />
-</p>
-
-<p class="activity"><label>On penis</label><br/><output id="O73" class="red">No way!</output>
-<input class="red" id="L73" type="range" value="0" min="0" max="4" onchange="change(73)" />
-</p>
-
-<p class="activity"><label>Pin-prick parachute</label><br/><output id="O74" class="red">No way!</output>
-<input class="red" id="L74" type="range" value="0" min="0" max="4" onchange="change(74)" />
-</p>
-
-<p class="activity"><label>Tiger balm on genitals</label><br/><output id="O75" class="red">No way!</output>
-<input class="red" id="L75" type="range" value="0" min="0" max="4" onchange="change(75)" />
-</p>
-
-<p class="activity"><label>Ball stretching</label><br/><output id="O76" class="red">No way!</output>
-<input class="red" id="L76" type="range" value="0" min="0" max="4" onchange="change(76)" />
-</p>
-
-<p class="activity"><label>Ball crunching</label><br/><output id="O77" class="red">No way!</output>
-<input class="red" id="L77" type="range" value="0" min="0" max="4" onchange="change(77)" />
-</p>
-
-<p class="activity"><label>Ball slapping</label><br/><output id="O78" class="red">No way!</output>
-<input class="red" id="L78" type="range" value="0" min="0" max="4" onchange="change(78)" />
-</p>
-
-<p class="activity"><label>Genital bondage</label><br/><output id="O79" class="red">No way!</output>
-<input class="red" id="L79" type="range" value="0" min="0" max="4" onchange="change(79)" />
-</p>
-
-<p class="activity"><label>Genital spanking</label><br/><output id="O80" class="red">No way!</output>
-<input class="red" id="L80" type="range" value="0" min="0" max="4" onchange="change(80)" />
-</p>
-
-<p class="activity"><label>Genital clamps</label><br/><output id="O81" class="red">No way!</output>
-<input class="red" id="L81" type="range" value="0" min="0" max="4" onchange="change(81)" />
-</p>
-
-<h2>Sensory deprivation</h2>
-<p class="activity"><label>Blindfold</label><br/><output id="O82" class="red">No way!</output>
-<input class="red" id="L82" type="range" value="0" min="0" max="4" onchange="change(82)" />
-</p>
-
-<p class="activity"><label>Hood</label><br/><output id="O83" class="red">No way!</output>
-<input class="red" id="L83" type="range" value="0" min="0" max="4" onchange="change(83)" />
-</p>
-
-<p class="activity"><label>Earplugs</label><br/><output id="O84" class="red">No way!</output>
-<input class="red" id="L84" type="range" value="0" min="0" max="4" onchange="change(84)" />
-</p>
-
-<p class="activity"><label>Headphone/Whitenoise</label><br/><output id="O85" class="red">No way!</output>
-<input class="red" id="L85" type="range" value="0" min="0" max="4" onchange="change(85)" />
-</p>
-
-<h2>Electro-stimulation</h2>
-<p class="activity"><label>On muscles</label><br/><output id="O86" class="red">No way!</output>
-<input class="red" id="L86" type="range" value="0" min="0" max="4" onchange="change(86)" />
-</p>
-
-<p class="activity"><label>On Genitals</label><br/><output id="O87" class="red">No way!</output>
-<input class="red" id="L87" type="range" value="0" min="0" max="4" onchange="change(87)" />
-</p>
-
-<p class="activity"><label>Vaginal</label><br/><output id="O88" class="red">No way!</output>
-<input class="red" id="L88" type="range" value="0" min="0" max="4" onchange="change(88)" />
-</p>
-
-<p class="activity"><label>Anal</label><br/><output id="O89" class="red">No way!</output>
-<input class="red" id="L89" type="range" value="0" min="0" max="4" onchange="change(89)" />
-</p>
-
-<p class="activity"><label>Violet wand</label><br/><output id="O90" class="red">No way!</output>
-<input class="red" id="L90" type="range" value="0" min="0" max="4" onchange="change(90)" />
-</p>
-
-<p class="activity"><label>Electric shocks</label><br/><output id="O91" class="red">No way!</output>
-<input class="red" id="L91" type="range" value="0" min="0" max="4" onchange="change(91)" />
-</p>
-
-<p class="activity"><label>Shocks collar</label><br/><output id="O92" class="red">No way!</output>
-<input class="red" id="L92" type="range" value="0" min="0" max="4" onchange="change(92)" />
-</p>
-
-<h2>Medical play</h2>
-<p class="activity"><label>Sounding</label><br/><output id="O93" class="red">No way!</output>
-<input class="red" id="L93" type="range" value="0" min="0" max="4" onchange="change(93)" />
-</p>
-
-<p class="activity"><label>Needle play</label><br/><output id="O94" class="red">No way!</output>
-<input class="red" id="L94" type="range" value="0" min="0" max="4" onchange="change(94)" />
-</p>
-
-<p class="activity"><label>Piercing</label><br/><output id="O173" class="red">No way!</output>
-<input class="red" id="L173" type="range" value="0" min="0" max="4" onchange="change(173)" />
-</p>
-
-<p class="activity"><label>Rectal examination</label><br/><output id="O95" class="red">No way!</output>
-<input class="red" id="L95" type="range" value="0" min="0" max="4" onchange="change(95)" />
-</p>
-
-<p class="activity"><label>Vaginal examination</label><br/><output id="O96" class="red">No way!</output>
-<input class="red" id="L96" type="range" value="0" min="0" max="4" onchange="change(96)" />
-</p>
-
-<p class="activity"><label>Urological examination</label><br/><output id="O97" class="red">No way!</output>
-<input class="red" id="L97" type="range" value="0" min="0" max="4" onchange="change(97)" />
-</p>
-
-<p class="activity"><label>Enemas</label><br/><output id="O98" class="red">No way!</output>
-<input class="red" id="L98" type="range" value="0" min="0" max="4" onchange="change(98)" />
-</p>
-
-<p class="activity"><label>Suppositories</label><br/><output id="O99" class="red">No way!</output>
-<input class="red" id="L99" type="range" value="0" min="0" max="4" onchange="change(99)" />
-</p>
-
-<p class="activity"><label>Prostate massage</label><br/><output id="O100" class="red">No way!</output>
-<input class="red" id="L100" type="range" value="0" min="0" max="4" onchange="change(100)" />
-</p>
-
-<p class="activity"><label>Orthopaedic cast</label><br/><output id="O101" class="red">No way!</output>
-<input class="red" id="L101" type="range" value="0" min="0" max="4" onchange="change(101)" />
-</p>
-
-<p class="activity"><label>Speculum</label><br/><output id="O102" class="red">No way!</output>
-<input class="red" id="L102" type="range" value="0" min="0" max="4" onchange="change(102)" />
-</p>
-
-<p class="activity"><label>Blood play</label><br/><output id="O152" class="red">No way!</output>
-<input class="red" id="L152" type="range" value="0" min="0" max="4" onchange="change(152)" />
-</p>
-
-<h2>Watersports</h2>
-<p class="activity"><label>On body</label><br/><output id="O103" class="red">No way!</output>
-<input class="red" id="L103" type="range" value="0" min="0" max="4" onchange="change(103)" />
-</p>
-
-<p class="activity"><label>On face</label><br/><output id="O104" class="red">No way!</output>
-<input class="red" id="L104" type="range" value="0" min="0" max="4" onchange="change(104)" />
-</p>
-
-<p class="activity"><label>On clothes</label><br/><output id="O105" class="red">No way!</output>
-<input class="red" id="L105" type="range" value="0" min="0" max="4" onchange="change(105)" />
-</p>
-
-<p class="activity"><label>Drinking own's</label><br/><output id="O106" class="red">No way!</output>
-<input class="red" id="L106" type="range" value="0" min="0" max="4" onchange="change(106)" />
-</p>
-
-<p class="activity"><label>Drinking else's</label><br/><output id="O107" class="red">No way!</output>
-<input class="red" id="L107" type="range" value="0" min="0" max="4" onchange="change(107)" />
-</p>
-
-<p class="activity"><label>Funnel gag</label><br/><output id="O108" class="red">No way!</output>
-<input class="red" id="L108" type="range" value="0" min="0" max="4" onchange="change(108)" />
-</p>
-
-<p class="activity"><label>Toilet control</label><br/><output id="O142" class="red">No way!</output>
-<input class="red" id="L142" type="range" value="0" min="0" max="4" onchange="change(142)" />
-</p>
-
-<p class="activity"><label>Scat</label><br/><output id="O140" class="red">No way!</output>
-<input class="red" id="L140" type="range" value="0" min="0" max="4" onchange="change(140)" />
-</p>
-
-<p class="activity"><label>Sweat</label><br/><output id="O192" class="red">No way!</output>
-<input class="red" id="L192" type="range" value="0" min="0" max="4" onchange="change(192)" />
-</p>
-
-<p class="activity"><label>Spit</label><br/><output id="O193" class="red">No way!</output>
-<input class="red" id="L193" type="range" value="0" min="0" max="4" onchange="change(193)" />
-</p>
-
-<h2>Breath play</h2>
-<p class="activity"><label>Hand over mouth</label><br/><output id="O109" class="red">No way!</output>
-<input class="red" id="L109" type="range" value="0" min="0" max="4" onchange="change(109)" />
-</p>
-
-<p class="activity"><label>Re-breather</label><br/><output id="O110" class="red">No way!</output>
-<input class="red" id="L110" type="range" value="0" min="0" max="4" onchange="change(110)" />
-</p>
-
-<p class="activity"><label>Gas mask</label><br/><output id="O172" class="red">No way!</output>
-<input class="red" id="L172" type="range" value="0" min="0" max="4" onchange="change(172)" />
-</p>
-
-<p class="activity"><label>Swimming cap</label><br/><output id="O163" class="red">No way!</output>
-<input class="red" id="L163" type="range" value="0" min="0" max="4" onchange="change(163)" />
-</p>
-
-<p class="activity"><label>Strangulation</label><br/><output id="O111" class="red">No way!</output>
-<input class="red" id="L111" type="range" value="0" min="0" max="4" onchange="change(111)" />
-</p>
-
-<p class="activity"><label>Forced poppers</label><br/><output id="O112" class="red">No way!</output>
-<input class="red" id="L112" type="range" value="0" min="0" max="4" onchange="change(112)" />
-</p>
-
-<p class="activity"><label>N2O</label><br/><output id="O143" class="red">No way!</output>
-<input class="red" id="L143" type="range" value="0" min="0" max="4" onchange="change(143)" />
-</p>
-
-<h2>Marks</h2>
-<p class="activity"><label>Lasting 1-2 hours</label><br/><output id="O113" class="red">No way!</output>
-<input class="red" id="L113" type="range" value="0" min="0" max="4" onchange="change(113)" />
-</p>
-
-<p class="activity"><label>Lasting 1-2 days</label><br/><output id="O114" class="red">No way!</output>
-<input class="red" id="L114" type="range" value="0" min="0" max="4" onchange="change(114)" />
-</p>
-
-<p class="activity"><label>Lasting 1-2 weeks</label><br/><output id="O115" class="red">No way!</output>
-<input class="red" id="L115" type="range" value="0" min="0" max="4" onchange="change(115)" />
-</p>
-
-<p class="activity"><label>Permanent marks</label><br/><output id="O116" class="red">No way!</output>
-<input class="red" id="L116" type="range" value="0" min="0" max="4" onchange="change(116)" />
-</p>
-
-<h2>Psychological / Other</h2>
-<p class="activity"><label>Domination</label><br/><output id="O117" class="red">No way!</output>
-<input class="red" id="L117" type="range" value="0" min="0" max="4" onchange="change(117)" />
-</p>
-
-<p class="activity"><label>Humiliation</label><br/><output id="O118" class="red">No way!</output>
-<input class="red" id="L118" type="range" value="0" min="0" max="4" onchange="change(118)" />
-</p>
-
-<p class="activity"><label>Degradation</label><br/><output id="O137" class="red">No way!</output>
-<input class="red" id="L137" type="range" value="0" min="0" max="4" onchange="change(137)" />
-</p>
-<p class="activity"><label>Food control</label><br/><output id="O181" class="red">No way!</output>
-<input class="red" id="L181" type="range" value="0" min="0" max="4" onchange="change(181)" />
-</p>
-<p class="activity"><label>Forced clothing</label><br/><output id="O165" class="red">No way!</output>
-<input class="red" id="L165" type="range" value="0" min="0" max="4" onchange="change(165)" />
-</p>
-<p class="activity"><label>Forced workout</label><br/><output id="O189" class="red">No way!</output>
-<input class="red" id="L189" type="range" value="0" min="0" max="4" onchange="change(189)" />
-</p>
-
-<p class="activity"><label>Forced haircut</label><br/><output id="O166" class="red">No way!</output>
-<input class="red" id="L166" type="range" value="0" min="0" max="4" onchange="change(166)" />
-</p>
-
-<p class="activity"><label>Shaving</label><br/><output id="O167" class="red">No way!</output>
-<input class="red" id="L167" type="range" value="0" min="0" max="4" onchange="change(167)" />
-</p>
-
-<p class="activity"><label>Sissification</label><br/><output id="O164" class="red">No way!</output>
-<input class="red" id="L164" type="range" value="0" min="0" max="4" onchange="change(164)" />
-</p>
-
-<p class="activity"><label>Aggressive language</label><br/><output id="O119" class="red">No way!</output>
-<input class="red" id="L119" type="range" value="0" min="0" max="4" onchange="change(119)" />
-</p>
-
-<p class="activity"><label>Protocol</label><br/><output id="O135" class="red">No way!</output>
-<input class="red" id="L135" type="range" value="0" min="0" max="4" onchange="change(135)" />
-</p>
-
-<p class="activity"><label>Play in public</label><br/><output id="O158" class="red">No way!</output>
-<input class="red" id="L158" type="range" value="0" min="0" max="4" onchange="change(158)" />
-</p>
-
-<p class="activity"><label>Submission to others</label><br/><output id="O151" class="red">No way!</output>
-<input class="red" id="L151" type="range" value="0" min="0" max="4" onchange="change(151)" />
-</p>
-
-<p class="activity"><label>Hypnosis</label><br/><output id="O120" class="red">No way!</output>
-<input class="red" id="L120" type="range" value="0" min="0" max="4" onchange="change(120)" />
-</p>
-
-<p class="activity"><label>Confusion</label><br/><output id="O121" class="red">No way!</output>
-<input class="red" id="L121" type="range" value="0" min="0" max="4" onchange="change(121)" />
-</p>
-
-<p class="activity"><label>Fear</label><br/><output id="O122" class="red">No way!</output>
-<input class="red" id="L122" type="range" value="0" min="0" max="4" onchange="change(122)" />
-</p>
-
-<p class="activity"><label>CNC</label><br/><output id="O134" class="red">No way!</output>
-<input class="red" id="L134" type="range" value="0" min="0" max="4" onchange="change(134)" />
-</p>
-
-<p class="activity"><label>Isolation/Solitary</label><br/><output id="O136" class="red">No way!</output>
-<input class="red" id="L136" type="range" value="0" min="0" max="4" onchange="change(136)" />
-</p>
-
-<p class="activity"><label>Slime/Grunge</label><br/><output id="O182" class="red">No way!</output>
-<input class="red" id="L182" type="range" value="0" min="0" max="4" onchange="change(182)" />
-</p>
-<h2>Gear</h2>
-<p class="activity"><label>Leather</label><br/><output id="O183" class="red">No way!</output>
-<input class="red" id="L183" type="range" value="0" min="0" max="4" onchange="change(183)" />
-<p class="activity"><label>Rubber</label><br/><output id="O184" class="red">No way!</output>
-<input class="red" id="L184" type="range" value="0" min="0" max="4" onchange="change(184)" />
-<p class="activity"><label>Spandex</label><br/><output id="O185" class="red">No way!</output>
-<input class="red" id="L185" type="range" value="0" min="0" max="4" onchange="change(185)" />
-<p class="activity"><label>Sports Kit</label><br/><output id="O186" class="red">No way!</output>
-<input class="red" id="L186" type="range" value="0" min="0" max="4" onchange="change(186)" />
-
-<p class="activity"><label>Diapers</label><br/><output id="O141" class="red">No way!</output>
-<input class="red" id="L141" type="range" value="0" min="0" max="4" onchange="change(141)" />
-</p>
-<p class="activity"><label>Onesies</label><br/><output id="O187" class="red">No way!</output>
-<input class="red" id="L187" type="range" value="0" min="0" max="4" onchange="change(187)" />
-
-<p class="activity"><label>Bibs</label><br/><output id="O188" class="red">No way!</output>
-<input class="red" id="L188" type="range" value="0" min="0" max="4" onchange="change(188)" />
-
-<p class="activity"><label>Bottles</label><br/><output id="O190" class="red">No way!</output>
-<input class="red" id="L190" type="range" value="0" min="0" max="4" onchange="change(190)" />
-	
-<h2>Photography</h2>
-<p class="activity"><label>Body</label><br/><output id="O123" class="red">No way!</output>
-<input class="red" id="L123" type="range" value="0" min="0" max="4" onchange="change(123)" />
-</p>
-
-<p class="activity"><label>Recognisable face</label><br/><output id="O124" class="red">No way!</output>
-<input class="red" id="L124" type="range" value="0" min="0" max="4" onchange="change(124)" />
-</p>
-
-<p class="activity"><label>Unrecognisable face</label><br/><output id="O125" class="red">No way!</output>
-<input class="red" id="L125" type="range" value="0" min="0" max="4" onchange="change(125)" />
-</p>
-
-<p class="activity"><label>Nipples</label><br/><output id="O126" class="red">No way!</output>
-<input class="red" id="L126" type="range" value="0" min="0" max="4" onchange="change(126)" />
-</p>
-
-<p class="activity"><label>Genitals</label><br/><output id="O127" class="red">No way!</output>
-<input class="red" id="L127" type="range" value="0" min="0" max="4" onchange="change(127)" />
-</p>
-
-<p class="activity"><label>Publishable without face</label><br/><output id="O128" class="red">No way!</output>
-<input class="red" id="L128" type="range" value="0" min="0" max="4" onchange="change(128)" />
-</p>
-
-<p class="activity"><label>Publishable with unrecognisable face</label><br/><output id="O149" class="red">No way!</output>
-<input class="red" id="L149" type="range" value="0" min="0" max="4" onchange="change(149)" />
-</p>
-
-<p class="activity"><label>Publishable with face</label><br/><output id="O129" class="red">No way!</output>
-<input class="red" id="L129" type="range" value="0" min="0" max="4" onchange="change(129)" />
-</p>
-
-<p class="activity"><label>Publishable with nipples</label><br/><output id="O130" class="red">No way!</output>
-<input class="red" id="L130" type="range" value="0" min="0" max="4" onchange="change(130)" />
-</p>
-
-<p class="activity"><label>Publishable with genitals</label><br/><output id="O131" class="red">No way!</output>
-<input class="red" id="L131" type="range" value="0" min="0" max="4" onchange="change(131)" />
-</p>
-<a href="javascript:void(0);" id="export_button">Export</a> 
-<span id="code" style="cursor: pointer; color: blue;">Generate Link</span>
-
-<h1>QR Code Generator</h1>
-<a href="javascript:void(0);" id="qr_button">Generate QR Code</a>
-<div id="qrcode"></div>
-
-
-       </form>
-		<br/>
-		<br/>
-		
-		<div class="explaination">
-		
-		<p>Copy the URL from your browser, and send it to your play partner.</p>
-		<p>You or your play partner can bookmark the page to recall it later, with all its values.</p>
-		<p>You can also publish the link to social media or add it to your online profiles.</p>
-		
-		<p>None of your preferences are saved on the server, if you modify your preferences, make sure you send another link.</p>
-		<p>If new kinky activities are added to this page, they'll appear as "No Way!" by default until you set new values for them and share the new link.</p>
-		<p>Only use this page as a complement to a more in-depth session planning. Make sure you have a safe-word (or safe gesture if gagged) or any agreement in place to withdraw consent during play.</p>
-		<p>It's free. We make no warranty. Use at your own risk.</p>
-		<p>Use common sense, stay safe and and very importantly, Have Fun!</p>
-		
-			</div>
-
-				<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-		                        
 <section>
   <h3>Additional Reading</h3>
   <ul>
