@@ -764,192 +764,147 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script type="text/javascript">
-	document.getElementById('export_button').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default behavior
-            export_res();
-	});
-	document.getElementById('qr_button').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default behavior
-            generateQRCode();
-	});
-	var link=""
+<script>
+    const ratings = ["No way!", "Curious", "Do when you like!", "I Like it", "Oh Yes!"];
+    const classes = ["red", "curious", "ylike", "moderate", "ohyes"];
+    const chars = ["N", "C", "D", "M", "Y"];
+    const totalItems = 198; // Total sliders (188 existing + 10 new)
 
-	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    // Correlation mapping for quick quiz
+    const correlations = {
+        0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], // Kissing
+        1: [2, 3, 4, 7, 8], // Oral (Received)
+        2: [12, 13, 14, 15, 16, 17, 18, 19, 20], // Vibrator
+        3: [21, 22, 23, 24, 25, 26], // Edging
+        4: [44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59], // Restraints
+        5: [72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82], // Spanking
+        6: [116, 117, 118, 119], // Blindfold
+        7: [149, 34, 152, 153], // Domination
+        8: [150, 151, 162], // Humiliation
+        9: [154, 160, 161, 170, 171], // Food Control
+        10: [135, 136, 137], // Spit
+        11: [135, 150, 151, 154, 170, 171] // Masticated Food Consumption
+    };
 
-	window.onload = function () { 
-	
-	    
-		var hash = window.location.hash;
-		hash = hash.substr(1);
-		
-		
-		if (hash.charAt(0) != "A") { // Old encoding
-			var len = hash.length
-		
-			
-		   	for (var i = 0; i < len ; i++){
-		   
-		   		var sel = document.getElementById("L" + i)
-		   	
-		   		var value = hash.charAt(i);
-		   
-		   	
-			   	if ( value == "N" ) {
-			   		sel.value = 0;
-			   	} else if ( value == "C" ) {
-			   		sel.value = 1;
-			   	} else if ( value == "D" ) {
-			   		sel.value = 2;
-			   	} else if ( value == "M" ) {
-			   		sel.value = 3;
-			   	} else if ( value == "Y" ) {
-			   		sel.value = 4;
-			   	}
-		
-			   	colorize(i)
-			   	
-		      	
-		    }
-	    } else {  // New "A" encoding
-	
-	    	var division = chars.search(hash.charAt(1))
-	    	var remainderChar = chars.search(hash.charAt(2))
-	    	var nbr = division * 36 + remainderChar
-	    	
-	    
-	    	hash = hash.substr(1);
-	    	hash = hash.substr(1);
-	    	hash = hash.substr(1);
-	    	
-	    	for (var i = 0; i < nbr ; i++) {
+    function colorize(index, prefix = "O") {
+        const output = document.getElementById(`${prefix}${index}`);
+        const input = document.getElementById(`${prefix === "O" ? "L" : "Q"}${index}`);
+        const value = parseInt(input.value);
+        output.textContent = ratings[value];
+        output.className = classes[value];
+        input.className = classes[value];
+        updateProgress();
+    }
 
-			   	var charRemainder = i % 4
-			   	var charIndex = (i - charRemainder) / 4
-			   	
-			   	console.log("index " + i + " remainder " + charRemainder + " charIndex " + charIndex)
-			   	
-			   	var char = hash[charIndex]
-			   	var value = chars.search(char)
-			   	
-			   	console.log("char " + char + " value " + value)
-			   	
-			   	for (var j = 0; j < charRemainder ; j++) {
-			   		
-			   		var r = value % 4
-			   		value = (value - r) / 4
-			   		
-			   		console.log("new value " + value)
-			   	}
-			   	
-			   	var sel = document.getElementById("L" + i)
-			   	sel.value = value
-			   	colorize(i)
-			   	
-	    	}
-	
-	    }
-	    
-	}
-	
+    function change(index) {
+        colorize(index);
+        compute();
+    }
 
-	function colorize(i) {
-		var r = document.getElementById("L" + i);
-		var output = document.getElementById("O" + i);
-		
-		var v = r.value;
-		
-		var result = "No Way!";
-		var color = "noway";
-		
-		if (v == 1) {
-			result = "Curious";
-			color = "curious";
-		} else if (v == 2) {
-			result = "Do when you like!";
-			color = "ylike";
-		} else if (v == 3) {
-			result = "I Like it";
-			color = "moderate";
-		} else if (v == 4) {
-			result = "Oh Yes!";
-			color = "ohyes";
-		} 
-		
-		output.innerText = result;
-		output.className = color;
-		r.className = color;
-	}
-	
-	function change(i) {
-		colorize(i)
-		compute()
-	}
-	
-	function compute(flag=false) {
-	
-		
-		var result = "";
-		var selects = document.getElementsByTagName('input');
-		
-		var runningValue = 0;
-	  
-		for (var i = 0; i < selects.length; i++){
-	  		var sel = document.getElementById("L" + i)
-	   		var v = parseInt(sel.value);
-	   		if (v == 1) {
-	    		result += "C";
-		} else if (v == 2) {
-    			result += "D";
-    		} else if (v == 3) {
-    			result += "M";
-    		} else if (v == 4) {
-    			result += "Y";
-    		} else {
-    			result += "N";
-    		}
+    function quizChange(index) {
+        colorize(index, "Q");
+    }
 
-//			var charRemainder = i % 3
-//			
-//			for (var j = 0; i < charRemainder; j++) {
-//			
-//				v = v * 3
-//			}
-//			
-//			runningValue = runningValue + v;
-//			
-//			if (charRemainder == 2 || i == selects.length - 1) {
-//				result = result + chars[runningValue];
-//				runningValue = 0;
-//			} 			
-
-	  	}
-	  	
-	  	
-	  	var nbr = selects.length
-	  	var remainder = nbr % 36
-	  	var division = (nbr - remainder) / 36
-	  	
-	  	
-	  	if (!flag)
-	  		window.location.hash = result;
-		
-		return result
-	  
-	}
-
-	
-        function export_res() {
-            var codeElement = document.getElementById("code");
-            var url = "https://kinkdev.github.io/Revision-Kinklist/?#" + compute(true);
-            codeElement.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+    function compute() {
+        let hash = "";
+        for (let i = 0; i < totalItems; i++) {
+            const input = document.getElementById(`L${i}`);
+            if (input) {
+                hash += chars[parseInt(input.value)];
+            } else {
+                hash += "N"; // Default for missing sliders
+            }
         }
+        const url = `${window.location.origin}${window.location.pathname}#${hash}`;
+        document.getElementById("code").onclick = () => {
+            navigator.clipboard.writeText(url);
+            alert("Link copied to clipboard!");
+        };
+        document.getElementById("qr_button").onclick = () => {
+            document.getElementById("qrcode").innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 128,
+                height: 128
+            });
+        };
+        document.getElementById("export_button").onclick = () => {
+            const blob = new Blob([JSON.stringify(getPreferences(), null, 2)], { type: "application/json" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "bdsm_preferences.json";
+            link.click();
+        };
+    }
 
-        function generateQRCode() {
-            var text = "https://kinkdev.github.io/Revision-Kinklist/?#" + compute(true);
-            var qrcodeContainer = document.getElementById("qrcode");
-            qrcodeContainer.innerHTML = ""; // Clear previous QR code
-            new QRCode(qrcodeContainer, text);
+    function getPreferences() {
+        const preferences = {};
+        for (let i = 0; i < totalItems; i++) {
+            const input = document.getElementById(`L${i}`);
+            if (input) {
+                const label = document.querySelector(`label[for="L${i}"]`)?.textContent || `Item ${i}`;
+                preferences[label] = ratings[parseInt(input.value)];
+            }
         }
+        return preferences;
+    }
+
+    function updateProgress() {
+        const inputs = document.querySelectorAll("#main-form input[type=range]");
+        let filled = 0;
+        inputs.forEach(input => {
+            if (parseInt(input.value) > 0) filled++;
+        });
+        const percentage = (filled / totalItems) * 100;
+        document.getElementById("progress-fill").style.width = `${percentage}%`;
+    }
+
+    function toggleCategory(id) {
+        const content = document.getElementById(id);
+        content.classList.toggle("active");
+    }
+
+    function startQuiz() {
+        document.getElementById("quick-quiz").style.display = "block";
+        document.getElementById("main-form").style.display = "none";
+        document.querySelector(".explaination").style.display = "none";
+    }
+
+    function generateQuickList() {
+        const quizInputs = document.querySelectorAll("#quick-quiz input");
+        quizInputs.forEach((input, i) => {
+            const value = parseInt(input.value);
+            const related = correlations[i] || [];
+            related.forEach(relatedId => {
+                const target = document.getElementById(`L${relatedId}`);
+                if (target) {
+                    target.value = Math.max(0, value - 1); // Slightly lower for related items
+                    colorize(relatedId);
+                }
+            });
+        });
+        document.getElementById("quick-quiz").style.display = "none";
+        document.getElementById("main-form").style.display = "block";
+        document.querySelector(".explaination").style.display = "block";
+        compute();
+        updateProgress();
+    }
+
+    window.onload = () => {
+        const hash = window.location.hash.slice(1);
+        if (hash) {
+            for (let i = 0; i < hash.length && i < totalItems; i++) {
+                const input = document.getElementById(`L${i}`);
+                if (input) {
+                    const value = chars.indexOf(hash[i]);
+                    if (value !== -1) {
+                        input.value = value;
+                        colorize(i);
+                    }
+                }
+            }
+        }
+        compute();
+        updateProgress();
+    };
 </script>
-
