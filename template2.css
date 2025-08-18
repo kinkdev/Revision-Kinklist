@@ -252,7 +252,7 @@ form {
     .activity {
         flex-direction: column;
         align-items: stretch;
-        gap: 8px;
+        gap: 1px;
     }
 
     .activity label {
