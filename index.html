@@ -861,7 +861,8 @@
                 for (let i = 0; i < totalItems; i++) {
                     const input = document.getElementById(`L${i}`);
                     if (input) {
-                        const label = document.querySelector(`label[for="L${i}"]`)?.textContent || `Item ${i}`;
+                        //const label = document.querySelector(`label[for="L${i}"]`)?.textContent || `Item ${i}`;
+                        const label = input.parentElement.querySelector("label")?.textContent || `Item ${i}`;
                         const rating = preferences[label];
                         if (rating && ratings.includes(rating)) {
                             input.value = ratings.indexOf(rating);
@@ -884,7 +885,8 @@
         for (let i = 0; i < totalItems; i++) {
             const input = document.getElementById(`L${i}`);
             if (input) {
-                const label = document.querySelector(`label[for="L${i}"]`)?.textContent || `Item ${i}`;
+                //const label = document.querySelector(`label[for="L${i}"]`)?.textContent || `Item ${i}`;
+                const label = input.parentElement.querySelector("label")?.textContent || `Item ${i}`;
                 preferences[label] = ratings[parseInt(input.value)];
             }
         }
