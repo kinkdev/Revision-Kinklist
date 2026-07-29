@@ -1,38 +1,62 @@
-/* Reset default styles for consistency */
+/* ==========================================
+   CSS Variables & System Setup
+   ========================================== */
+:root {
+    --bg-main: #f4f6f8;
+    --bg-card: #ffffff;
+    --bg-category: #eef2f5;
+    --bg-category-hover: #e2e7ec;
+    
+    --border-color-light: #e1e6eb;
+    --border-color-med: #cbd5e1;
+    --accent-primary: #007bff;
+    --accent-success: #4caf50;
+    
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+}
+
+/* Reset default styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body and general styling */
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
     padding: 20px;
-    background: #f9f9f9;
-    color: #333;
+    background: var(--bg-main);
+    color: #2c3e50;
 }
 
-/* Header with icon */
+/* Header */
 h1 {
     display: flex;
     align-items: center;
     font-size: 2em;
     margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color-light);
 }
 
 h1 img {
-    margin-right: 10px;
+    margin-right: 12px;
 }
 
 /* Explanation section */
 .explaination {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color-med);
+    border-left: 4px solid var(--accent-primary);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
 }
 
 .explaination ul {
@@ -41,49 +65,75 @@ h1 img {
 }
 
 .explaination li {
-    margin: 5px 0;
+    margin: 6px 0;
 }
 
-/* Category headers */
+/* Categories (Accordion Header) */
 .category {
     cursor: pointer;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 10px 0;
-    padding: 10px;
-    background: #e0e0e0;
-    border-radius: 5px;
-    transition: background 0.3s;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-top: 12px;
+    margin-bottom: 0;
+    padding: 12px 16px;
+    background: var(--bg-category);
+    border: 1px solid var(--border-color-med);
+    border-left: 4px solid #64748b;
+    border-radius: var(--radius-md);
+    transition: background 0.2s, border-color 0.2s;
+    user-select: none;
 }
 
 .category:hover {
-    background: #d0d0d0;
+    background: var(--bg-category-hover);
 }
 
-/* Category content (collapsible) */
+/* Active Category Header styling when content is visible */
+.category.active-header {
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border-bottom-color: transparent;
+    border-left-color: var(--accent-primary);
+}
+
+/* Category content panel */
 .category-content {
     display: none;
-    padding-left: 20px;
-    margin-bottom: 20px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color-med);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    box-shadow: var(--shadow-sm);
 }
 
 .category-content.active {
     display: block;
 }
 
-/* Activity (slider) styling */
+/* Individual Activity (Slider item card) */
 .activity {
-    margin: 10px 0;
+    margin: 8px 0;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
+    background: #fafbfc;
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.activity:hover {
+    background: var(--bg-card);
+    border-color: var(--border-color-med);
 }
 
 .activity label {
     flex: 1;
-    min-width: 150px;
-    font-weight: normal;
+    min-width: 160px;
+    font-weight: 500;
 }
 
 .activity output {
@@ -91,7 +141,10 @@ h1 img {
     min-width: 60px;
     text-align: right;
     font-weight: bold;
-    padding-right: 10px;
+    padding: 2px 8px;
+    background: #ffffff;
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--radius-sm);
 }
 
 /* Slider styling */
@@ -100,7 +153,7 @@ input[type=range] {
     width: clamp(120px, 40vw, 180px);
     margin: 0;
     -webkit-appearance: none;
-    background: #ddd;
+    background: #e2e8f0;
     height: 8px;
     border-radius: 4px;
     outline: none;
@@ -109,222 +162,166 @@ input[type=range] {
 
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    background: #4caf50;
+    width: 18px;
+    height: 18px;
+    background: var(--accent-success);
     border-radius: 50%;
     cursor: pointer;
-    transition: background 0.3s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: transform 0.1s, background 0.2s;
 }
 
 input[type=range]::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    background: #4caf50;
+    width: 18px;
+    height: 18px;
+    background: var(--accent-success);
     border-radius: 50%;
+    border: none;
     cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 input[type=range]:focus {
-    background: #ccc;
+    background: #cbd5e1;
 }
 
 input[type=range]:focus::-webkit-slider-thumb {
     background: #388e3c;
-}
-
-input[type=range]:focus::-moz-range-thumb {
-    background: #388e3c;
+    transform: scale(1.1);
 }
 
 /* Rating colors */
-.red { color: red; }
-.curious { color: orange; }
-.ylike { color: green; }
-.moderate { color: blue; }
-.ohyes { color: purple; }
+.red { color: #d32f2f; }
+.curious { color: #ed6c02; }
+.ylike { color: #2e7d32; }
+.moderate { color: #0288d1; }
+.ohyes { color: #7b1fa2; }
 
-/* Quick quiz styling */
+/* Quick quiz panel */
 #quick-quiz {
     display: none;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid var(--border-color-med);
+    border-left: 4px solid var(--accent-success);
+    border-radius: var(--radius-md);
     margin-bottom: 20px;
-    background: #fff;
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
 }
 
 #quick-quiz h2 {
-    font-size: 1.5em;
-    margin-bottom: 15px;
+    font-size: 1.4em;
+    margin-bottom: 12px;
 }
 
 #quick-quiz button {
     padding: 10px 20px;
-    background: #4caf50;
+    background: var(--accent-success);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    font-size: 1em;
+    font-weight: 600;
 }
 
 #quick-quiz button:hover {
     background: #388e3c;
 }
 
-/* Progress bar */
+/* Progress bar container */
 .progress-bar {
     width: 100%;
-    height: 10px;
-    background: #ddd;
-    margin: 10px 0;
-    border-radius: 5px;
+    height: 12px;
+    background: #e2e8f0;
+    margin: 16px 0;
+    border-radius: 6px;
+    border: 1px solid var(--border-color-light);
+    overflow: hidden;
 }
 
 .progress-fill {
     height: 100%;
-    background: #4caf50;
+    background: var(--accent-success);
     width: 0;
     border-radius: 5px;
     transition: width 0.3s ease-in-out;
 }
 
-/* QR code and export buttons */
+/* Action Controls / Export Section */
 #export_button, #qr_button, #code {
     display: inline-block;
-    margin: 10px 5px;
-    padding: 8px 15px;
-    background: #007bff;
+    margin: 8px 4px;
+    padding: 10px 18px;
+    background: var(--accent-primary);
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    font-weight: 500;
     cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
 #export_button:hover, #qr_button:hover, #code:hover {
     background: #0056b3;
+    box-shadow: var(--shadow-sm);
 }
 
 #qrcode {
-    margin-top: 10px;
+    margin-top: 14px;
+    padding: 12px;
+    display: inline-block;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color-med);
+    border-radius: var(--radius-sm);
 }
 
-/* Form container */
-form {
-    margin-bottom: 20px;
+/* Focus and accessibility outlines */
+input[type=range]:focus, 
+button:focus, 
+a:focus {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
 }
 
-/* Responsive design */
+button {
+    padding: 6px 12px;
+    margin: 4px;
+    cursor: pointer;
+    border: 1px solid var(--border-color-med);
+    border-radius: var(--radius-sm);
+    background: #ffffff;
+}
+
+/* Mobile Responsive Adjustments */
 @media (max-width: 768px) {
     html, body {
         overflow-x: hidden;
         width: 100%;
-        padding: 10px;
-        font-size: clamp(14px, 4vw, 16px);
-    }
-
-    h1 {
-        font-size: clamp(1.2em, 5vw, 1.5em);
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    h1 img {
-        width: 30px;
-        margin-bottom: 10px;
-    }
-
-    .explaination {
-        padding: 10px;
-        font-size: 0.9em;
-    }
-
-    .category {
-        font-size: 1em;
-        padding: 8px;
-    }
-
-    .category-content {
-        padding-left: 10px;
+        padding: 12px;
     }
 
     .activity {
         flex-direction: column;
-        align-items: center;
-        gap: 1px;
+        align-items: stretch;
+        gap: 8px;
+        padding: 12px;
     }
 
-    .activity label {
-        width: auto;
-        min-width: 0;
-        text-align: left;
-    }
-
+    .activity label,
     .activity output {
-        width: auto;
-        min-width: 0;
+        width: 100%;
         text-align: left;
-        padding-right: 0;
     }
 
     input[type=range] {
         width: 100%;
-        max-width: 300px;
-        margin: 0;
-    }
-
-    input[type=range]::-webkit-slider-thumb {
-        width: 20px;
-        height: 20px;
-    }
-
-    input[type=range]::-moz-range-thumb {
-        width: 20px;
-        height: 20px;
+        max-width: 100%;
     }
 
     button, #export_button, #qr_button, #code {
-        padding: 12px 20px;
-        min-width: 48px;
-        min-height: 48px;
-        font-size: 1em;
+        width: 100%;
+        text-align: center;
+        margin: 6px 0;
     }
-
-    .category:hover, #export_button:hover, #qr_button:hover, #code:hover {
-        background: initial;
-    }
-
-    .category:active, #export_button:active, #qr_button:active, #code:active {
-        background: #d0d0d0;
-    }
-
-    .progress-bar, #qrcode {
-        max-width: 100%;
-        overflow: hidden;
-    }
-
-    #quick-quiz {
-        padding: 10px;
-        font-size: 0.9em;
-    }
-
-    #quick-quiz h2 {
-        font-size: 1.2em;
-    }
-}
-
-/* Accessibility improvements */
-input[type=range]:focus {
-    outline: 2px solid #007bff;
-}
-
-button:focus, a:focus {
-    outline: 2px solid #007bff;
-}
-
-button {
-    padding: 5px 10px;
-    margin: 5px;
-    cursor: pointer;
 }
