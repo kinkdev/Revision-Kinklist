@@ -327,6 +327,85 @@ button {
   background: #ffffff;
 }
 
+/* View tabs (Checklist / Personalities) */
+.tab-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tab-btn {
+  flex: 1;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 1em;
+  background: var(--bg-category);
+  border: 1px solid var(--border-color-med);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.tab-btn.active {
+  background: var(--bg-card);
+  border-bottom: 3px solid var(--accent-primary);
+}
+
+/* Personality results panel */
+#personality-results {
+  padding: 20px;
+  margin-bottom: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color-med);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+#personality-results h2 {
+  font-size: 1.4em;
+  margin-bottom: 12px;
+}
+
+#personality-list {
+  margin-top: 16px;
+  padding-left: 20px;
+}
+
+#personality-list li {
+  margin: 8px 0;
+}
+
+/* Compare panel */
+#compare-results {
+  padding: 20px;
+  margin-bottom: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color-med);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+#compare-results h2, #compare-results h4 {
+  margin: 12px 0 8px;
+}
+
+#compare-tease {
+  font-style: italic;
+}
+
+#compare-results input[type=text] {
+  padding: 8px 10px;
+  margin: 6px 0;
+  border: 1px solid var(--border-color-med);
+  border-radius: var(--radius-sm);
+  font-size: 0.85em;
+}
+
+#compare-results ul {
+  padding-left: 20px;
+}
+
+#compare-results li {
+  margin: 4px 0;
+}
+
 /* Mobile Responsive Adjustments */
 @media (max-width: 600px) {
   html, body {

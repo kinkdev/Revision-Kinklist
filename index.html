@@ -20,6 +20,7 @@
             <li>Right position = <span class="ohyes">Oh Yes!</span></li>
         </ul>
         <p>Complete the list or try the <button onclick="startQuiz()">Quick Quiz</button> to generate a preliminary list. Then copy the URL, generate a QR code, or export/import preferences.</p>
+        <p><strong>Adults only (18+).</strong> All content here concerns consensual adult roleplay between consenting adults.</p>
         <p>
             <button onclick="document.getElementById('import_file').click()">Import JSON</button>
             <input type="file" id="import_file" accept=".json" style="display: none;" onchange="importPreferences(event)">
@@ -65,6 +66,12 @@
         <input class="red" id="Q11-input" type="range" value="0" min="0" max="4" onchange="quizChange(11)" aria-label="Rate Getting Messy preference" />
         </p>
         <button onclick="generateQuickList()">Finish Quiz</button>
+    </div>
+
+    <div class="tab-bar" role="tablist" aria-label="Page views">
+        <button id="tab-checklist" class="tab-btn active" onclick="showTab('checklist')" role="tab">Checklist</button>
+        <button id="tab-personalities" class="tab-btn" onclick="showTab('personalities')" role="tab">My Personalities</button>
+        <button id="tab-compare" class="tab-btn" onclick="showTab('compare')" role="tab">Match Daddy</button>
     </div>
 
     <form id="main-form">
@@ -732,6 +739,39 @@
         <div id="qrcode"></div>
     </form>
 
+    <section id="personality-results" aria-live="polite" style="display: none;">
+        <h2>Your BDSM Personalities</h2>
+        <p id="personality-summary">Move any slider to see your 7-cluster profile.</p>
+        <div style="max-width:560px"><canvas id="radar-chart" height="280"></canvas></div>
+        <div style="max-width:560px"><canvas id="bar-chart" height="240"></canvas></div>
+        <ul id="personality-list"></ul>
+    </section>
+
+    <section id="compare-results" aria-live="polite" style="display: none;">
+        <h2>Match With Daddy</h2>
+        <p>You fill this site in as the sub — paste your Daddy's share-link to see how closely you fit him. Scores compare likes-for-likes; talk through giving/receiving roles together.</p>
+        <p class="activity"><label for="compare-a">Your link (sub)</label>
+            <input type="text" id="compare-a" placeholder="Your share-link…" style="width:100%" />
+            <button onclick="useMyList('compare-a')">Use my current list</button>
+        </p>
+        <p class="activity"><label for="compare-b">Daddy's link</label>
+            <input type="text" id="compare-b" placeholder="Paste Daddy's share-link…" style="width:100%" />
+        </p>
+        <button onclick="runCompare()">Compare</button>
+        <p id="compare-error" class="red"></p>
+        <div id="compare-output" style="display: none;">
+            <h3 id="compare-score"></h3>
+            <p id="compare-tease"></p>
+            <div style="max-width:560px"><canvas id="compare-chart" height="260"></canvas></div>
+            <h4>Shared loves (both “I Like it” or “Oh Yes!”)</h4>
+            <ul id="compare-loves"></ul>
+            <h4>Clashes (one loves it, the other says “No way!”)</h4>
+            <ul id="compare-clashes"></ul>
+            <h4>Per-personality match</h4>
+            <ul id="compare-clusters"></ul>
+        </div>
+    </section>
+
     <div class="explaination">
         <p>Copy the URL from your browser, and send it to your play partner.</p>
         <p>You or your play partner can bookmark the page to recall it later, with all its values.</p>
@@ -755,11 +795,13 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="chart.umd.min.js"></script>
+<script src="personalities.js"></script>
 <script>
     const ratings = ["No way!", "Curious", "Do when you like!", "I Like it", "Oh Yes!"];
     const classes = ["red", "curious", "ylike", "moderate", "ohyes"];
     const chars = ["N", "C", "D", "M", "Y"];
-    const totalItems = 198;
+    const totalItems = 187;
     const correlations = {
         0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], // Kissing
         1: [2, 3, 4, 7, 8], // Oral (Received)
@@ -825,6 +867,56 @@
             link.download = "bdsm_preferences.json";
             link.click();
         };
+        renderPersonalities();
+    }
+
+    let radarChart = null, barChart = null;
+    function renderPersonalities() {
+        if (typeof computePersonalities === "undefined") return;
+        const results = computePersonalities(i => {
+            const el = document.getElementById(`L${i}`);
+            return el ? parseInt(el.value, 10) : 0;
+        });
+        const top = results[0], second = results[1];
+        const summary = document.getElementById("personality-summary");
+        if (summary) {
+            if (top.pct === 0) {
+                summary.textContent = "Move any slider to see your 7-cluster profile.";
+            } else {
+                summary.textContent = `Primary: ${top.name} (${top.pct}%) — ${top.description} Secondary: ${second.name} (${second.pct}%).`;
+            }
+        }
+        const list = document.getElementById("personality-list");
+        if (list) {
+            list.innerHTML = results.map(r =>
+                `<li><strong>${r.name}: ${r.pct}%</strong> (${r.loves}/${r.count} “Oh Yes!”) — ${r.description}</li>`
+            ).join("");
+        }
+        if (typeof Chart === "undefined") return;
+        const labels = [...results].reverse().map(r => r.name);
+        const data = [...results].reverse().map(r => r.pct);
+        const colors = [...results].reverse().map(r =>
+            (PERSONALITIES.find(p => p.id === r.id) || {}).color || "rgb(100,100,100)");
+        const radarCtx = document.getElementById("radar-chart");
+        if (radarCtx) {
+            if (radarChart) radarChart.destroy();
+            radarChart = new Chart(radarCtx, {
+                type: "radar",
+                data: { labels: PERSONALITIES.map(p => p.name),
+                    datasets: [{ label: "Profile %", data: PERSONALITIES.map(p =>
+                        (results.find(r => r.id === p.id) || {}).pct || 0) }] },
+                options: { scales: { r: { min: 0, max: 100 } } }
+            });
+        }
+        const barCtx = document.getElementById("bar-chart");
+        if (barCtx) {
+            if (barChart) barChart.destroy();
+            barChart = new Chart(barCtx, {
+                type: "bar",
+                data: { labels: labels, datasets: [{ label: "Match %", data: data, backgroundColor: colors }] },
+                options: { indexAxis: "y", scales: { x: { min: 0, max: 100 } } }
+            });
+        }
     }
 
     function computeQuickQuiz() {
@@ -914,8 +1006,127 @@
     function startQuiz() {
         document.getElementById("quick-quiz").style.display = "block";
         document.getElementById("main-form").style.display = "none";
+        document.getElementById("personality-results").style.display = "none";
+        document.getElementById("compare-results").style.display = "none";
         document.querySelector(".explaination").style.display = "none";
         updateProgress(true); // Initialize progress for quick quiz
+    }
+
+    function showTab(name) {
+        const isQuiz = document.getElementById("quick-quiz").style.display === "block";
+        if (isQuiz) document.getElementById("quick-quiz").style.display = "none";
+        document.getElementById("main-form").style.display = name === "checklist" ? "block" : "none";
+        document.getElementById("personality-results").style.display = name === "personalities" ? "block" : "none";
+        document.getElementById("compare-results").style.display = name === "compare" ? "block" : "none";
+        document.getElementById("tab-checklist").classList.toggle("active", name === "checklist");
+        document.getElementById("tab-personalities").classList.toggle("active", name === "personalities");
+        document.getElementById("tab-compare").classList.toggle("active", name === "compare");
+        if (name === "personalities") renderPersonalities();
+    }
+
+    function itemLabel(i) {
+        const input = document.getElementById(`L${i}`);
+        return (input && input.parentElement.querySelector("label")?.textContent) || `Item ${i}`;
+    }
+
+    function parseSharedLink(str) {
+        if (!str) return null;
+        const h = str.includes("#") ? str.split("#").pop() : str.trim();
+        if (h.length < totalItems || !/^[NCDMY]+$/.test(h)) return null;
+        return h.slice(0, totalItems).split("").map(c => chars.indexOf(c));
+    }
+
+    function currentHash() {
+        let hash = "";
+        for (let i = 0; i < totalItems; i++) {
+            const input = document.getElementById(`L${i}`);
+            hash += input ? chars[parseInt(input.value)] : "N";
+        }
+        return hash;
+    }
+
+    function useMyList(targetId) {
+        document.getElementById(targetId).value =
+            `${window.location.origin}${window.location.pathname}#${currentHash()}`;
+    }
+
+    let compareChart = null;
+    function runCompare() {
+        const err = document.getElementById("compare-error");
+        const out = document.getElementById("compare-output");
+        const a = parseSharedLink(document.getElementById("compare-a").value.trim());
+        const b = parseSharedLink(document.getElementById("compare-b").value.trim());
+        if (!a || !b) {
+            err.textContent = "Both links must be valid share-links (…# + 187 N/C/D/M/Y characters). Use “Generate Link” on the Checklist tab.";
+            out.style.display = "none";
+            return;
+        }
+        err.textContent = "";
+
+        let sum = 0;
+        const loves = [], clashes = [];
+        for (let i = 0; i < totalItems; i++) {
+            sum += 1 - Math.abs(a[i] - b[i]) / 4;
+            if (a[i] >= 3 && b[i] >= 3) loves.push(itemLabel(i));
+            else if ((a[i] >= 3 && b[i] === 0) || (b[i] >= 3 && a[i] === 0)) {
+                clashes.push(`${itemLabel(i)} (You: ${ratings[a[i]]} / Daddy: ${ratings[b[i]]})`);
+            }
+        }
+        const overall = Math.round(sum / totalItems * 100);
+        document.getElementById("compare-score").textContent =
+            `You match Daddy ${overall}% — ${loves.length} shared loves, ${clashes.length} clashes to talk through.`;
+        let tease;
+        if (overall >= 85) tease = "Such a good fit — Daddy will barely need to train you at all.";
+        else if (overall >= 65) tease = "A promising little one — a little training and you'll fit Daddy perfectly.";
+        else if (overall >= 45) tease = "Mmm… someone needs training. Lucky Daddy enjoys teaching.";
+        else tease = "Oh dear — you need a LOT of training before you're ready for Daddy.";
+        if (clashes.length > 0) tease += ` Especially those ${clashes.length} clash${clashes.length > 1 ? "es" : ""}.`;
+        document.getElementById("compare-tease").textContent = tease;
+        document.getElementById("compare-loves").innerHTML =
+            loves.length ? loves.map(t => `<li>${t}</li>`).join("") : "<li>None yet.</li>";
+        document.getElementById("compare-clashes").innerHTML =
+            clashes.length ? clashes.map(t => `<li>${t}</li>`).join("") : "<li>No hard clashes.</li>";
+
+        const pa = computePersonalities(i => a[i]);
+        const pb = computePersonalities(i => b[i]);
+        // Personality-flavored tease: sub's top cluster + ABDL-core kicker (a[] is the sub)
+        const topSub = pa[0] || {};
+        const flavor = {
+            sensualist: "All soft kisses and worship — such an affectionate little thing. Daddy will keep you very close.",
+            controller: "A little one who craves rules and control? Careful what you wish for — Daddy has a whole rulebook waiting.",
+            restraint: "Already dreaming of being wrapped up tight and helpless? Daddy can arrange that.",
+            pain: "A fussy little one who responds best to a firm hand — Daddy knows just what to do about that.",
+            edge: "Such a brave little patient… Daddy's clinic is ready when you are.",
+            taboo: "A messy little one, aren't you? Good thing Daddy doesn't mind mess.",
+            fantasy: "Make-believe and dress-up at the very top — the littlest dreamer of all."
+        }[topSub.id] || "";
+        const ABDL_ITEMS = [33, 36, 177, 178, 179, 180];
+        const abdlAvg = ABDL_ITEMS.reduce((s, i) => s + a[i], 0) / ABDL_ITEMS.length;
+        let extra = flavor ? " " + flavor : "";
+        if (abdlAvg >= 3) extra += " Padded little core and all — no pretending otherwise, Daddy can tell.";
+        if (extra) document.getElementById("compare-tease").textContent += extra;
+        document.getElementById("compare-clusters").innerHTML = PERSONALITIES.map(p => {
+            const xa = (pa.find(r => r.id === p.id) || {}).pct || 0;
+            const xb = (pb.find(r => r.id === p.id) || {}).pct || 0;
+            return `<li><strong>${p.name}:</strong> You ${xa}% / Daddy ${xb}% — match ${100 - Math.abs(xa - xb)}%</li>`;
+        }).join("");
+
+        out.style.display = "block";
+        if (typeof Chart !== "undefined") {
+            const ctx = document.getElementById("compare-chart");
+            if (compareChart) compareChart.destroy();
+            compareChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: PERSONALITIES.map(p => p.name),
+                    datasets: [
+                        { label: "You (sub) %", data: PERSONALITIES.map(p => (pa.find(r => r.id === p.id) || {}).pct || 0) },
+                        { label: "Daddy %", data: PERSONALITIES.map(p => (pb.find(r => r.id === p.id) || {}).pct || 0) }
+                    ]
+                },
+                options: { indexAxis: "y", scales: { x: { min: 0, max: 100 } } }
+            });
+        }
     }
 
     function generateQuickList() {
@@ -934,6 +1145,9 @@
         document.getElementById("quick-quiz").style.display = "none";
         document.getElementById("main-form").style.display = "block";
         document.querySelector(".explaination").style.display = "block";
+        document.getElementById("tab-checklist").classList.add("active");
+        document.getElementById("tab-personalities").classList.remove("active");
+        document.getElementById("tab-compare").classList.remove("active");
         compute();
         updateProgress();
     }
